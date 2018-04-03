@@ -1,10 +1,92 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "Node.h"
+
 #include <iostream>
+#include <string>
+#include <sstream>
 
 using namespace std;
+
+class Node
+    {
+        private:
+            int id;
+            std::string fname;
+            std::string lname;
+            string location;
+            string season;
+            string book;
+        
+            Node* nextPtr;
+        
+
+        public:
+            // Constructor functions
+            Node(int, string, string, string, string, string, string);
+        
+            // Accessor functions;
+            int getID() { return id;}               // Inline function
+            Node* getNextPtr() { return nextPtr;}   // Inline function
+            string getRecord();                     
+            
+            //Mutator functions
+            void setData(int, string, string, string, string, string, string);
+            void setNextPtr(Node* ptr) { nextPtr = ptr;}   // Inline function
+    };
+
+
+
+//===========================================================================
+//          Member functions' definition
+//===========================================================================
+
+Node::Node()
+    {
+        id = 0;
+        string fname = " ";
+        string lname = " ";
+        string location = " ";
+        string season = " ";
+        string book = " ";
+        nextPtr = NULL;
+    }
+
+
+
+
+Node::Node(int number, string firstName, string lastName, string destination, string season, string bookings)
+    {
+        id = number;
+        fname = firstName;
+        lname = lastName;
+        location = destination;
+        season = season;
+        book = bookings;
+        
+        nextPtr = NULL;
+    }
+
+string Node::getRecord()
+    {
+        string str = "";
+        str.append(to_string(id));
+        str.append("\t");
+        str.append(fname);
+        str.append("\t");
+        str.append(lname);
+        str.append("\t");
+        str.append(location);
+        str.append("\t");
+        str.append(season);
+        str.append("\t");
+        str.append(book);
+        str.append("\n");
+
+        return str;
+    }
+    
+
 
 class queue
 {
@@ -16,15 +98,26 @@ class queue
     public:
         queue(){front = NULL; back = NULL;}  //constructor
         
-        void enqueue (int, string, string, float); //inserts value at the back of queue
+        //Accessor functions 
+        string theFront();
+        string theBack();
+        string myQ();
+        
+        //Mutator Functions
+        void emptyQueue();
+        void enqueue (int, string, string, string, string, string, string); //inserts value at the back of queue
         string dequeue (); //remove from front of queue
         int size(); //return num_elements
         bool isEmpty(); //declares if Queue is empty or not
-        string theFront(); //displays value at front of queue
         string dList();//displays list contents of Queue
         string dNames();//
         
 };
+
+    void emptyQueue()
+    {
+        head = tail = NULL;
+    }
 
     bool queue::isEmpty()
     {
@@ -52,7 +145,19 @@ class queue
         }
     }
     
-    string queue::dList()
+    string theBack()
+    {
+        if (isEmpty())
+        {
+            throw ("out of range");
+        }
+        else
+        {
+            return back->getRecord();
+        }
+    }
+    
+  /*  string queue::dList()
     {
        string myRecord = "";
        
@@ -65,9 +170,9 @@ class queue
             curr = curr->getNextPtr();
         }
         return myRecord;
-    }
+    }*/
     
-    string queue::dNames()
+  /*  string queue::dNames()
 {
     string rec = "";
     
@@ -81,11 +186,11 @@ class queue
     }
     
     return rec;
-}
+}*/
     
-    void queue::enqueue(int num, string f, string l, float sc)
+    void queue::enqueue(int number, string firstName, string lastName, string destination, string season, string bookings)
     {
-        Node* newPtr = new Node(num, f, l, sc);
+        Node* newPtr = new Node(number, firstName, lastName, destination, season, bookings);
         
         if (isEmpty())
         {
@@ -97,7 +202,7 @@ class queue
             back->setNextPtr(newPtr);
             back = newPtr;
             //newPtr->link=frontPtr;
-            //delete newPtr;
+            return;
         }
       //int num_elements=num_elements + 1;
     }
@@ -119,8 +224,6 @@ class queue
             front = front->getNextPtr();
             delete curPtr;
             
-            if (front == NULL)
-                back = NULL;
         }
             return str;
       //int num_elements = num_elements - 1;
