@@ -23,7 +23,7 @@
 #include "queueFile.h"
 //#include <pQueue.h>
 //#include <deque.h>
-//#include <stack.h>
+#include "stackFile"¨
 
 using namespace std;
 
@@ -142,6 +142,7 @@ string makeRecord(int id, string fname, string lname, string loc, string season,
     }*/
 
 queue* myqueue = new queue(); 
+stack* mystack = new stack();
 /************************************************************************************
  *  Step 2: Name an inherited application class from wxApp and declare it with 
  *	  the function to execute the program				    
@@ -189,10 +190,16 @@ class MyFrame: public wxFrame
         void OnShowHeadQ(wxCommandEvent& event);  //handle for show head of Queue function
         void OnShowTailQ(wxCommandEvent& event);  //handle for show tail of Queue function
         
+        //Stack Events
+        void OnCreateStack(wxCommandEvent& event); 	//handle for 'Create Stack' function
+        void OnPush(wxCommandEvent& event);  //handle for 'Push' function
+        void OnPop(wxCommandEvent& event);  //handle for 'Pop' function
+        void OnDispAllSt(wxCommandEvent& event);  //handle for 'Display All' function for Stack
+        
         void OnCreateRbt(wxCommandEvent& event); 	//handle for 'Create RBT' function
         void OnCreateSet(wxCommandEvent& event); 	//handle for 'Create Set' function
         void OnCreateSplay(wxCommandEvent& event); 	//handle for 'Create Splay' function
-        void OnCreateStack(wxCommandEvent& event); 	//handle for 'Create Stack' function
+        
         void OnAddDataPQ(wxCommandEvent& event);  //handle for 'Add Data' pQueue function
         void OnAddDataBST(wxCommandEvent& event);  //handle for 'Add Data' BST function
         void OnAddDataAVL(wxCommandEvent& event);  //handle for 'Add Data' AVL function
@@ -204,7 +211,7 @@ class MyFrame: public wxFrame
         void OnAddTail(wxCommandEvent& event);  //handle for 'Add Tail' function
         void OnDispAllDQ(wxCommandEvent& event);  //handle for 'Display All' function
         void OnDispAllPQ(wxCommandEvent& event);  //handle for 'Display All' function
-        void OnDispAllSt(wxCommandEvent& event);  //handle for 'Display All' function
+        
         void OnDispAllH(wxCommandEvent& event);  //handle for 'Display All' function for Heap
         void OnDispSetA(wxCommandEvent& event);  //handle for 'Display SetA' function
         void OnDispSetB(wxCommandEvent& event);  //handle for 'Display SetB' function
@@ -224,8 +231,7 @@ class MyFrame: public wxFrame
         void OnDelDataSp(wxCommandEvent& event);  //handle for 'Delete Data' function
         void OnDelSetA(wxCommandEvent& event);  //handle for 'Delete from Set A' function
         void OnDelSetB(wxCommandEvent& event);  //handle for 'Delete from Set B' function
-        void OnPush(wxCommandEvent& event);  //handle for 'Push' function
-        void OnPop(wxCommandEvent& event);  //handle for 'Pop' function
+        
         void OnHeapSort(wxCommandEvent& event);  //handle for 'Heap Sort' function
         void OnInOrderBST(wxCommandEvent& event);  //handle for 'Inorder' function
         void OnInOrderAVL(wxCommandEvent& event);  //handle for 'Inorder' function
@@ -280,10 +286,15 @@ enum
             ID_ShowHeadQ,
             ID_ShowTailQ,
             
+            //Stack
+            ID_CreateStack,
+            ID_Push,
+            ID_Pop,
+            ID_DispAllSt,
+            
             ID_CreateRbt,
             ID_CreateSet,
             ID_CreateSplay,
-            ID_CreateStack,
             ID_AddDataPQ,
             ID_AddDataBST,
             ID_AddDataAVL,
@@ -295,7 +306,6 @@ enum
             ID_AddTail,
             ID_DispAllDQ,
             ID_DispAllPQ,
-            ID_DispAllSt,
             ID_DispAllH,
             ID_DispSetA,
             ID_DispSetB,
@@ -315,8 +325,6 @@ enum
             ID_DelDataSp,
             ID_DelSetA,
             ID_DelSetB,
-            ID_Push,
-            ID_Pop,
             ID_HeapSort,
             ID_InOrderBST,
             ID_InOrderAVL,
@@ -356,10 +364,15 @@ BEGIN_EVENT_TABLE ( MyFrame, wxFrame )
         EVT_MENU ( ID_ShowTailQ, MyFrame::OnShowTailQ )
         EVT_MENU ( ID_DequeueQ, MyFrame::OnDequeueQ )
         
+        //Stack
+        EVT_MENU ( ID_CreateStack, MyFrame::OnCreateStack )
+        EVT_MENU ( ID_Push, MyFrame::OnPush )
+        EVT_MENU ( ID_Pop, MyFrame::OnPop )
+        EVT_MENU ( ID_DispAllSt, MyFrame::OnDispAllSt )
+        
         EVT_MENU ( ID_CreateRbt, MyFrame::OnCreateRbt )
         EVT_MENU ( ID_CreateSet, MyFrame::OnCreateSet )
         EVT_MENU ( ID_CreateSplay, MyFrame::OnCreateSplay )
-        EVT_MENU ( ID_CreateStack, MyFrame::OnCreateStack )
         EVT_MENU ( ID_AddDataPQ, MyFrame::OnAddDataPQ )
         EVT_MENU ( ID_AddDataBST, MyFrame::OnAddDataBST )
         EVT_MENU ( ID_AddDataAVL, MyFrame::OnAddDataAVL )
@@ -375,15 +388,11 @@ BEGIN_EVENT_TABLE ( MyFrame, wxFrame )
         EVT_MENU ( ID_DispUnion, MyFrame::OnDispUnion )
         EVT_MENU ( ID_DispAllDQ, MyFrame::OnDispAllDQ )
         EVT_MENU ( ID_DispAllPQ, MyFrame::OnDispAllPQ )
-        EVT_MENU ( ID_DispAllSt, MyFrame::OnDispAllSt )
         EVT_MENU ( ID_DispAllH, MyFrame::OnDispAllH )
-
         EVT_MENU ( ID_ShowHeadDQ, MyFrame::OnShowHeadDQ )
         EVT_MENU ( ID_ShowHeadPQ, MyFrame::OnShowHeadPQ )
-        
         EVT_MENU ( ID_ShowTailDQ, MyFrame::OnShowTailDQ )
         EVT_MENU ( ID_ShowTailPQ, MyFrame::OnShowTailPQ )
-
         EVT_MENU ( ID_DequeuePQ, MyFrame::OnDequeuePQ )
         EVT_MENU ( ID_DequeueH, MyFrame::OnDequeueH )
         EVT_MENU ( ID_DequeueT, MyFrame::OnDequeueT )
@@ -394,8 +403,6 @@ BEGIN_EVENT_TABLE ( MyFrame, wxFrame )
         EVT_MENU ( ID_DelDataSp, MyFrame::OnDelDataSp )
         EVT_MENU ( ID_DelSetA, MyFrame::OnDelSetA )
         EVT_MENU ( ID_DelSetB, MyFrame::OnDelSetB )
-        EVT_MENU ( ID_Push, MyFrame::OnPush )
-        EVT_MENU ( ID_Pop, MyFrame::OnPop )
         EVT_MENU ( ID_HeapSort, MyFrame::OnHeapSort )
         EVT_MENU ( ID_InOrderBST, MyFrame::OnInOrderBST )
         EVT_MENU ( ID_InOrderAVL, MyFrame::OnInOrderAVL )
@@ -754,6 +761,7 @@ void MyFrame::OnCreatePQ ( wxCommandEvent& WXUNUSED ( event ) )
         
     }
     
+    
 //QUEUE FUNCTION DEFINITIONS DECLARATION
 void MyFrame::OnCreateQueue ( wxCommandEvent& WXUNUSED ( event ) )
     {
@@ -954,6 +962,8 @@ void MyFrame::OnCreateSplay ( wxCommandEvent& WXUNUSED ( event ) )  //12
         
     }
     
+    
+//STACK FUNCTION DEFINITION DECLARATIONS
 void MyFrame::OnCreateStack ( wxCommandEvent& WXUNUSED ( event ) )
     {
         //ONLY THE SPRING RECORDS ARE REQUIRED
