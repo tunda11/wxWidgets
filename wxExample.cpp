@@ -23,7 +23,7 @@
 #include "queueFile.h"
 //#include <pQueue.h>
 //#include <deque.h>
-#include "stackFile"¨
+#include "stackFile.h"
 
 using namespace std;
 
@@ -600,9 +600,7 @@ MyFrame::MyFrame ( const wxString& title, const wxPoint& pos, const wxSize& size
         
         
 	//Set up the panel for data display
-//=========================================================================================
-//=========================== DO NOT CHANGE THE CODE IN THIS SECTION ======================	
-//=========================================================================================
+
 
 	wxPanel 	*panel 	= new wxPanel(this, -1);
 	wxBoxSizer 	*vbox 	= new wxBoxSizer(wxVERTICAL);		//Vertical sizer for main window
@@ -967,8 +965,134 @@ void MyFrame::OnCreateSplay ( wxCommandEvent& WXUNUSED ( event ) )  //12
 void MyFrame::OnCreateStack ( wxCommandEvent& WXUNUSED ( event ) )
     {
         //ONLY THE SPRING RECORDS ARE REQUIRED
-
+            
+            int num;
+            string fname;
+            string lname;
+            string loc;
+            string season;
+            string book;
+            string Spring = "Spring";
         
+            char comma = ',';
+        
+            string record;
+            string theRecord;
+            string titleLine;
+    
+            // Clear the edit box
+            MainEditBox->Clear();
+    
+            //Empty the Stack
+            mystack->emptyStack();
+      
+            //Create filename pointer    
+            //ifstream inFile;
+            ifstream inFile;
+        
+            inFile.open(CurrentDocPath.mb_str(), ios::in);
+    
+        if (!inFile)
+        {
+            MainEditBox->AppendText(wxT("Unable to open file as requested"));
+            return;
+        }
+       
+            // Read off the title line and discard it
+            getline(inFile, titleLine, '\n');
+  
+            // Create a label for the displayed records
+            titleLine = "Client ID \t\t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
+
+            titleLine.append("==================================================================================================\n");
+            record.append(titleLine);
+            wxString wxRecords(record.c_str(), wxConvUTF8);
+            MainEditBox->AppendText(wxRecords);
+        
+            while (!inFile.eof())
+            {
+           
+                inFile  >> num >> comma;
+                    getline(inFile, fname, ',');
+                    getline(inFile, lname, ',');
+                    getline(inFile, loc, ',');
+                    getline(inFile, season, ',');
+                    getline(inFile, book, '\n');
+           
+                
+                if (!inFile.eof())
+                {
+                    fname = strip(fname);
+                    lname  = strip(lname);
+                    loc = strip(loc);
+                    season = strip(season);
+                    book = strip(book);
+                    Spring = strip(Spring);
+              
+                if (season == Spring)
+                {
+                    record = makeRecord(num, fname, lname, loc, season, book);
+                    mystack->push(num, fname, lname, loc, season, book);
+                    
+                    wxString wxRecords(record.c_str(), wxConvUTF8);
+                    MainEditBox->AppendText(wxRecords);
+                    MainEditBox->AppendText(wxT("\n"));
+        
+                    record = " ";
+                }//end of seasonal if statement
+                
+                }//end of File If
+                
+            }//end While
+        
+    }
+    
+void MyFrame::OnPush ( wxCommandEvent& WXUNUSED ( event ) )
+    {
+        
+    }
+    
+void MyFrame::OnPop ( wxCommandEvent& WXUNUSED ( event ) )
+    {
+        string records, titleLine;
+        // Clear the edit box
+        MainEditBox->Clear();
+  
+        // Create a label for the displayed records
+        titleLine = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+
+        titleLine.append("==================================================================================================\n");
+	records.append(titleLine);
+	
+	records.append(mystack->pop());
+		
+	//Convert to a wxString
+	wxString wxRecords(records.c_str(), wxConvUTF8);
+	//display the words in the MainEditBox
+	MainEditBox->AppendText(wxT("\t\t\t\t\nRecords in Stack:\n\n"));
+	MainEditBox->AppendText(wxRecords);
+    }
+    
+    
+void MyFrame::OnDispAllSt ( wxCommandEvent& WXUNUSED ( event ) )
+    {
+        string records, titleLine;
+        // Clear the edit box
+        MainEditBox->Clear();
+  
+        // Create a label for the displayed records
+        titleLine = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+
+        titleLine.append("==================================================================================================\n");
+	records.append(titleLine);
+	
+	records.append(mystack->dList());
+		
+	//Convert to a wxString
+	wxString wxRecords(records.c_str(), wxConvUTF8);
+	//display the words in the MainEditBox
+	MainEditBox->AppendText(wxT("\t\t\t\t\nRecords in Stack:\n\n"));
+	MainEditBox->AppendText(wxRecords);
     }
     
 
@@ -1029,10 +1153,7 @@ void MyFrame::OnDispAllPQ ( wxCommandEvent& WXUNUSED ( event ) )
         
     }
     
-void MyFrame::OnDispAllSt ( wxCommandEvent& WXUNUSED ( event ) )
-    {
-        
-    }
+
     
 void MyFrame::OnDispAllH ( wxCommandEvent& WXUNUSED ( event ) )
     {
@@ -1133,16 +1254,7 @@ void MyFrame::OnDelSetB ( wxCommandEvent& WXUNUSED ( event ) )
         
     }
     
-void MyFrame::OnPush ( wxCommandEvent& WXUNUSED ( event ) )
-    {
-        
-    }
-    
-void MyFrame::OnPop ( wxCommandEvent& WXUNUSED ( event ) )
-    {
-        
-    }
-    
+
 void MyFrame::OnHeapSort ( wxCommandEvent& WXUNUSED ( event ) )
     {
         

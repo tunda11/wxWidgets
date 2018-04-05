@@ -17,6 +17,7 @@ class stack
         stack(){top = NULL; bottom = NULL;}  //constructor
         
         void push (int, string, string, string, string, string); //inserts value at the back of Stack
+        void emptyStack() {top = bottom = NULL;}//emptys the Stack
         string pop ();      //remove from top of Stack
         int size();         //return num_elements
         bool isEmpty();     //declares if Stack is empty or not
