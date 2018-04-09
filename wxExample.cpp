@@ -21,7 +21,7 @@
 
 //Inclusion of all Linked List ADT headers
 #include "queueFile.h"
-//#include <pQueue.h>
+#include "pQueueFile.h"
 //#include <deque.h>
 #include "stackFile.h"
 
@@ -143,6 +143,7 @@ string makeRecord(int id, string fname, string lname, string loc, string season,
 
 queue* myqueue = new queue(); 
 stack* mystack = new stack();
+pQueue* mypQueue = new pQueue();    
 /************************************************************************************
  *  Step 2: Name an inherited application class from wxApp and declare it with 
  *	  the function to execute the program				    
@@ -174,7 +175,7 @@ class MyFrame: public wxFrame
         void OnCreateBst(wxCommandEvent& event);  //handle for 'Create BST' function
         void OnCreateDeque(wxCommandEvent& event);  //handle for 'Create Deque' function
         void OnCreateHeap(wxCommandEvent& event);  //handle for 'Create Heap' function
-        void OnCreatePQ(wxCommandEvent& event);  //handle for 'Create Priority Queue' function
+        
         
         //File Events
         void OnOpenFile(wxCommandEvent& event); 	//handle for Quit function
@@ -190,6 +191,14 @@ class MyFrame: public wxFrame
         void OnShowHeadQ(wxCommandEvent& event);  //handle for show head of Queue function
         void OnShowTailQ(wxCommandEvent& event);  //handle for show tail of Queue function
         
+        //Priority Queue Events
+        void OnCreatePQ(wxCommandEvent& event);  //handle for 'Create Priority Queue' function
+        void OnAddDataPQ(wxCommandEvent& event);  //handle for 'Add Data' pQueue function
+        void OnDispAllPQ(wxCommandEvent& event);  //handle for 'Display All' pQueue function
+        void OnShowHeadPQ(wxCommandEvent& event);  //handle for show head of Queue function
+        void OnShowTailPQ(wxCommandEvent& event);  //handle for show tail of Queue function
+        void OnDequeuePQ(wxCommandEvent& event);  //handle for 'Dequeue' for Dequeue function
+        
         //Stack Events
         void OnCreateStack(wxCommandEvent& event); 	//handle for 'Create Stack' function
         void OnPush(wxCommandEvent& event);  //handle for 'Push' function
@@ -200,7 +209,6 @@ class MyFrame: public wxFrame
         void OnCreateSet(wxCommandEvent& event); 	//handle for 'Create Set' function
         void OnCreateSplay(wxCommandEvent& event); 	//handle for 'Create Splay' function
         
-        void OnAddDataPQ(wxCommandEvent& event);  //handle for 'Add Data' pQueue function
         void OnAddDataBST(wxCommandEvent& event);  //handle for 'Add Data' BST function
         void OnAddDataAVL(wxCommandEvent& event);  //handle for 'Add Data' AVL function
         void OnAddDataH(wxCommandEvent& event);  //handle for 'Add Data' Heap Tree function
@@ -210,7 +218,6 @@ class MyFrame: public wxFrame
         void OnAddHead(wxCommandEvent& event);  //hanle for 'Add Head' function
         void OnAddTail(wxCommandEvent& event);  //handle for 'Add Tail' function
         void OnDispAllDQ(wxCommandEvent& event);  //handle for 'Display All' function
-        void OnDispAllPQ(wxCommandEvent& event);  //handle for 'Display All' function
         
         void OnDispAllH(wxCommandEvent& event);  //handle for 'Display All' function for Heap
         void OnDispSetA(wxCommandEvent& event);  //handle for 'Display SetA' function
@@ -218,10 +225,7 @@ class MyFrame: public wxFrame
         void OnDispInter(wxCommandEvent& event);  //handle for 'Display Intersection' function
         void OnDispUnion(wxCommandEvent& event);  //handle for 'Display Union' function
         void OnShowHeadDQ(wxCommandEvent& event);  //handle for show head of Queue function
-        void OnShowHeadPQ(wxCommandEvent& event);  //handle for show head of Queue function
         void OnShowTailDQ(wxCommandEvent& event);  //handle for show tail of Queue function
-        void OnShowTailPQ(wxCommandEvent& event);  //handle for show tail of Queue function
-        void OnDequeuePQ(wxCommandEvent& event);  //handle for 'Dequeue' for Dequeue function
         void OnDequeueH(wxCommandEvent& event);  //handle for 'Dequeue Head' function
         void OnDequeueT(wxCommandEvent& event);  //handle for 'Dequeue Tail' function
         void OnDelDataBST(wxCommandEvent& event);  //handle for 'Delete Data' function
@@ -231,7 +235,6 @@ class MyFrame: public wxFrame
         void OnDelDataSp(wxCommandEvent& event);  //handle for 'Delete Data' function
         void OnDelSetA(wxCommandEvent& event);  //handle for 'Delete from Set A' function
         void OnDelSetB(wxCommandEvent& event);  //handle for 'Delete from Set B' function
-        
         void OnHeapSort(wxCommandEvent& event);  //handle for 'Heap Sort' function
         void OnInOrderBST(wxCommandEvent& event);  //handle for 'Inorder' function
         void OnInOrderAVL(wxCommandEvent& event);  //handle for 'Inorder' function
@@ -277,7 +280,7 @@ enum
             ID_CreateBst,
             ID_CreateDeque,
             ID_CreateHeap,
-            ID_CreatePQ,
+            
             //Queue
             ID_CreateQueue,
             ID_AddDataQ,
@@ -285,6 +288,14 @@ enum
             ID_DequeueQ,
             ID_ShowHeadQ,
             ID_ShowTailQ,
+            
+            //Priority Queue
+            ID_CreatePQ,
+            ID_AddDataPQ,
+            ID_DispAllPQ,
+            ID_ShowHeadPQ,
+            ID_ShowTailPQ,
+            ID_DequeuePQ,
             
             //Stack
             ID_CreateStack,
@@ -295,7 +306,6 @@ enum
             ID_CreateRbt,
             ID_CreateSet,
             ID_CreateSplay,
-            ID_AddDataPQ,
             ID_AddDataBST,
             ID_AddDataAVL,
             ID_AddDataH,
@@ -305,17 +315,13 @@ enum
             ID_AddHead,
             ID_AddTail,
             ID_DispAllDQ,
-            ID_DispAllPQ,
             ID_DispAllH,
             ID_DispSetA,
             ID_DispSetB,
             ID_DispInter,
             ID_DispUnion,
             ID_ShowHeadDQ,
-            ID_ShowHeadPQ,
             ID_ShowTailDQ,
-            ID_ShowTailPQ,
-            ID_DequeuePQ,
             ID_DequeueH,
             ID_DequeueT,
             ID_DelDataBST,
@@ -354,7 +360,6 @@ BEGIN_EVENT_TABLE ( MyFrame, wxFrame )
         EVT_MENU ( ID_CreateBst, MyFrame::OnCreateBst )
         EVT_MENU ( ID_CreateDeque, MyFrame::OnCreateDeque )
         EVT_MENU ( ID_CreateHeap, MyFrame::OnCreateHeap )
-        EVT_MENU ( ID_CreatePQ, MyFrame::OnCreatePQ )
         
         //Queue
         EVT_MENU ( ID_CreateQueue, MyFrame::OnCreateQueue )
@@ -363,6 +368,14 @@ BEGIN_EVENT_TABLE ( MyFrame, wxFrame )
         EVT_MENU ( ID_ShowHeadQ, MyFrame::OnShowHeadQ )
         EVT_MENU ( ID_ShowTailQ, MyFrame::OnShowTailQ )
         EVT_MENU ( ID_DequeueQ, MyFrame::OnDequeueQ )
+        
+        //Priority Queue
+        EVT_MENU ( ID_CreatePQ, MyFrame::OnCreatePQ )
+        EVT_MENU ( ID_AddDataPQ, MyFrame::OnAddDataPQ )
+        EVT_MENU ( ID_DispAllPQ, MyFrame::OnDispAllPQ )
+        EVT_MENU ( ID_ShowHeadPQ, MyFrame::OnShowHeadPQ )
+        EVT_MENU ( ID_ShowTailPQ, MyFrame::OnShowTailPQ )
+        EVT_MENU ( ID_DequeuePQ, MyFrame::OnDequeuePQ )
         
         //Stack
         EVT_MENU ( ID_CreateStack, MyFrame::OnCreateStack )
@@ -373,7 +386,6 @@ BEGIN_EVENT_TABLE ( MyFrame, wxFrame )
         EVT_MENU ( ID_CreateRbt, MyFrame::OnCreateRbt )
         EVT_MENU ( ID_CreateSet, MyFrame::OnCreateSet )
         EVT_MENU ( ID_CreateSplay, MyFrame::OnCreateSplay )
-        EVT_MENU ( ID_AddDataPQ, MyFrame::OnAddDataPQ )
         EVT_MENU ( ID_AddDataBST, MyFrame::OnAddDataBST )
         EVT_MENU ( ID_AddDataAVL, MyFrame::OnAddDataAVL )
         EVT_MENU ( ID_AddDataH, MyFrame::OnAddDataH )
@@ -387,13 +399,9 @@ BEGIN_EVENT_TABLE ( MyFrame, wxFrame )
         EVT_MENU ( ID_DispInter, MyFrame::OnDispInter )
         EVT_MENU ( ID_DispUnion, MyFrame::OnDispUnion )
         EVT_MENU ( ID_DispAllDQ, MyFrame::OnDispAllDQ )
-        EVT_MENU ( ID_DispAllPQ, MyFrame::OnDispAllPQ )
         EVT_MENU ( ID_DispAllH, MyFrame::OnDispAllH )
         EVT_MENU ( ID_ShowHeadDQ, MyFrame::OnShowHeadDQ )
-        EVT_MENU ( ID_ShowHeadPQ, MyFrame::OnShowHeadPQ )
         EVT_MENU ( ID_ShowTailDQ, MyFrame::OnShowTailDQ )
-        EVT_MENU ( ID_ShowTailPQ, MyFrame::OnShowTailPQ )
-        EVT_MENU ( ID_DequeuePQ, MyFrame::OnDequeuePQ )
         EVT_MENU ( ID_DequeueH, MyFrame::OnDequeueH )
         EVT_MENU ( ID_DequeueT, MyFrame::OnDequeueT )
         EVT_MENU ( ID_DelDataBST, MyFrame::OnDelDataBST )
@@ -754,18 +762,198 @@ void MyFrame::OnCreateHeap ( wxCommandEvent& WXUNUSED ( event ) )
       
     }
     
+    
+    
+//PRIORITY QUEUE FUNCTION DEFINITIONS DECLARATIONS
 void MyFrame::OnCreatePQ ( wxCommandEvent& WXUNUSED ( event ) )
+    {
+       
+        int num;
+        string fname;
+        string lname;
+        string loc;
+        string season;
+        string book;
+        
+        char comma = ',';
+        
+    string record;
+    string theRecord;
+    string titleLine;
+    
+    // Clear the edit box
+    MainEditBox->Clear();
+    //myqueue ->~queue();
+    
+	//Empty the Queue
+	mypQueue->emptyQueue();
+      
+	//Create filename pointer    
+    //ifstream inFile;
+    //open the file
+    ifstream inFile(CurrentDocPath.mb_str(), ios::in);
+    
+    if (!inFile)
+    {
+        MainEditBox->AppendText(wxT("Unable to open file as requested"));
+		return;
+    }
+    
+    
+    // Read off the title line and discard it
+        getline(inFile, titleLine, '\n');
+  
+        // Create a label for the displayed records
+        titleLine = "Client ID \t\t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
+
+        titleLine.append("==================================================================================================\n");
+        record.append(titleLine);
+        wxString wxRecords(record.c_str(), wxConvUTF8);
+        MainEditBox->AppendText(wxRecords);
+        
+        while (!inFile.eof())
+        {
+            //test->enqueue(num, a, b, c, d, e);
+            inFile  >> num >> comma;
+                getline(inFile, fname, ',');
+                getline(inFile, lname, ',');
+                getline(inFile, loc, ',');
+                getline(inFile, season, ',');
+                getline(inFile, book, '\n');
+           
+                
+                if (!inFile.eof())
+		  {
+			fname = strip(fname);
+			lname = strip(lname);
+			loc = strip(loc);
+			season = strip(season);
+			book = strip(book);
+                   
+			record = makeRecord(num, fname, lname, loc, season, book);
+						
+						
+			mypQueue->enqueue(num, fname, lname, loc, season, book);
+		  }//endif
+		  
+		wxString wxRecords(record.c_str(), wxConvUTF8);
+        MainEditBox->AppendText(wxRecords);
+        MainEditBox->AppendText(wxT("\n"));
+			
+        //Reset record variable
+        record = " ";
+        
+        }//endWhile 
+    }
+    
+    
+void MyFrame::OnAddDataPQ ( wxCommandEvent& WXUNUSED ( event ) )
     {
         
     }
     
     
+void MyFrame::OnDispAllPQ ( wxCommandEvent& WXUNUSED ( event ) )
+    {
+       string records, titleLine;
+	
+	// Clear the edit box
+	MainEditBox->Clear();
+    
+    // Create a label for the displayed records
+        titleLine = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+
+        titleLine.append("==================================================================================================\n");
+	records.append(titleLine);
+  
+	//Go grab the data
+	records = mypQueue->dList();
+      
+	//Convert to a wxString
+	wxString wxRecords(records.c_str(), wxConvUTF8);
+
+	//display the words in the MainEditBox
+    MainEditBox->AppendText(wxT("\t\t\t\t\nAll current records:\n\n"));
+	MainEditBox->AppendText(wxRecords);  
+    }
+    
+        
+void MyFrame::OnShowHeadPQ ( wxCommandEvent& WXUNUSED ( event ) )
+    {
+         string records, titleLine;
+	
+	// Clear the edit box
+	MainEditBox->Clear();
+    
+    // Create a label for the displayed records
+        titleLine = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+
+        titleLine.append("==================================================================================================\n");
+	records.append(titleLine);
+  
+	//Go grab the data
+	records = mypQueue->theFront();
+      
+	//Convert to a wxString
+	wxString wxRecords(records.c_str(), wxConvUTF8);
+
+	//display the words in the MainEditBox
+    MainEditBox->AppendText(wxT("\t\t\t\t\nAll current records:\n\n"));
+	MainEditBox->AppendText(wxRecords);  
+    }
+    
+    
+void MyFrame::OnShowTailPQ ( wxCommandEvent& WXUNUSED ( event ) )
+    {
+         string records, titleLine;
+	
+	// Clear the edit box
+	MainEditBox->Clear();
+    
+    // Create a label for the displayed records
+        titleLine = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+
+        titleLine.append("==================================================================================================\n");
+	records.append(titleLine);
+  
+	//Go grab the data
+	records = mypQueue->theBack();
+      
+	//Convert to a wxString
+	wxString wxRecords(records.c_str(), wxConvUTF8);
+
+	//display the words in the MainEditBox
+    MainEditBox->AppendText(wxT("\t\t\t\t\nAll current records:\n\n"));
+	MainEditBox->AppendText(wxRecords);  
+    }
+    
+    
+void MyFrame::OnDequeuePQ ( wxCommandEvent& WXUNUSED ( event ) )
+    {
+        string record;
+        
+        //Clear the main edit box
+        MainEditBox->Clear();
+    
+        record = mypQueue->dequeue();
+        
+        //Converts record data to a string
+        wxString wxRecords(record.c_str(), wxConvUTF8);
+        
+        //display information in Edit box
+        MainEditBox->AppendText(wxRecords);
+    }
+        
+ 
+ 
+ 
+
+    
 //QUEUE FUNCTION DEFINITIONS DECLARATION
 void MyFrame::OnCreateQueue ( wxCommandEvent& WXUNUSED ( event ) )
     {
     
-
-    int num;
+        int num;
         string fname;
         string lname;
         string loc;
@@ -840,8 +1028,6 @@ void MyFrame::OnCreateQueue ( wxCommandEvent& WXUNUSED ( event ) )
         //Reset record variable
         record = " ";
         }//endWhile
-        
-       
     
   } 
   
@@ -960,7 +1146,11 @@ void MyFrame::OnCreateSplay ( wxCommandEvent& WXUNUSED ( event ) )  //12
         
     }
     
-    
+   
+   
+   
+   
+   
 //STACK FUNCTION DEFINITION DECLARATIONS
 void MyFrame::OnCreateStack ( wxCommandEvent& WXUNUSED ( event ) )
     {
@@ -1097,11 +1287,7 @@ void MyFrame::OnDispAllSt ( wxCommandEvent& WXUNUSED ( event ) )
     
 
     
-void MyFrame::OnAddDataPQ ( wxCommandEvent& WXUNUSED ( event ) )
-    {
-        
-    }
-    
+
 void MyFrame::OnAddDataBST ( wxCommandEvent& WXUNUSED ( event ) )
     {
         
@@ -1148,11 +1334,7 @@ void MyFrame::OnDispAllDQ ( wxCommandEvent& WXUNUSED ( event ) )
         
     }
     
-void MyFrame::OnDispAllPQ ( wxCommandEvent& WXUNUSED ( event ) )
-    {
-        
-    }
-    
+
 
     
 void MyFrame::OnDispAllH ( wxCommandEvent& WXUNUSED ( event ) )
@@ -1179,18 +1361,10 @@ void MyFrame::OnDispUnion ( wxCommandEvent& WXUNUSED ( event ) )
         
     }
     
-
-    
 void MyFrame::OnShowHeadDQ ( wxCommandEvent& WXUNUSED ( event ) )
     {
         
     }
-    
-void MyFrame::OnShowHeadPQ ( wxCommandEvent& WXUNUSED ( event ) )
-    {
-        
-    }
-    
 
     
 void MyFrame::OnShowTailDQ ( wxCommandEvent& WXUNUSED ( event ) )
@@ -1198,17 +1372,7 @@ void MyFrame::OnShowTailDQ ( wxCommandEvent& WXUNUSED ( event ) )
         
     }
     
-void MyFrame::OnShowTailPQ ( wxCommandEvent& WXUNUSED ( event ) )
-    {
-        
-    }
-    
 
-void MyFrame::OnDequeuePQ ( wxCommandEvent& WXUNUSED ( event ) )
-    {
-        
-    }
-    
 void MyFrame::OnDequeueH ( wxCommandEvent& WXUNUSED ( event ) )
     {
         

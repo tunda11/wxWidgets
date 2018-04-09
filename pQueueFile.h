@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <string.h>
-#include "Node.h"
+#include "NodeFile.h"
 
 using namespace std;
 
@@ -18,12 +18,14 @@ class pQueue
     public:
         pQueue(){front = NULL; back = NULL;}  //constructor
         
-        string theFront();      //displays value at front of queue
+        string theFront();      //displays value at front of Queue
+        string theBack();       //displays value at back of Queue
         string dList();         //displays list contents of Queue
         string dNames();        //displays the "string" values of the Queue
         
-        void enqueue (int, string, string, float); //inserts value at the back of queue
-        string dequeue (); //remove from front of queue
+        void enqueue (int, string, string, string, string, string); //inserts value at the back of Queue
+        void emptyQueue() {front = back = NULL;}
+        string dequeue (); //remove from front of Queue
         int size(); //return num_elements
         bool isEmpty(); //declares if Queue is empty or not
         
@@ -56,6 +58,17 @@ class pQueue
         }
     }
     
+    string pQueue::theBack()
+    {
+        if (isEmpty())
+        {
+            throw ("out of range");
+        }
+        else
+        {
+            return back->getRecord();
+        }
+    }
     string pQueue::dList()
     {
        string myRecord = "";
@@ -87,9 +100,9 @@ class pQueue
     return rec;
 }
     
-    void pQueue::enqueue(int num, string f, string l, float sc)
+    void pQueue::enqueue(int num, string a, string b, string c, string d, string e)
     {
-        Node* newPtr = new Node(num, f, l, sc);
+        Node* newPtr = new Node(num, a, b, c, d, e);
         
         if (isEmpty())
         {
@@ -97,7 +110,7 @@ class pQueue
             return;
         }
         
-        if( f < front->getName())
+        if( a < front->getName())
         {
             newPtr->setNextPtr(front);
             front = newPtr;
@@ -110,7 +123,7 @@ class pQueue
         Node* tmpPtr = front;
         Node* curPtr = front->getNextPtr();
         
-        while ( (curPtr != NULL) && (curPtr->getName() < f) )
+        while ( (curPtr != NULL) && (curPtr->getName() < a) )
         {
             tmpPtr = curPtr;
             curPtr = curPtr->getNextPtr();
