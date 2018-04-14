@@ -12,6 +12,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <stdio.h>
 
 using namespace std; 
 
@@ -29,11 +30,11 @@ class Node
         
         public:
             // Constructor functions
-            Node();
+            //Node();
             Node(int, string, string, string, string, string);
         
             // Accessor functions;
-            string getName();
+            //string getName();
             string getRecord();                     // You need to write that function!
             int getID() { return idNo;}             // Inline function
             //float getGPA() { return gpa; }          // Inline function
@@ -51,7 +52,7 @@ class Node
 //          Member functions' definition
 //===========================================================================
 
-Node::Node()
+/*Node::Node()
     {
         idNo = 0;
         name = "";
@@ -61,7 +62,7 @@ Node::Node()
         booking = "";
         nextPtr = NULL;
     }
-
+*/
 
 
 
@@ -78,7 +79,7 @@ Node::Node(int number, string firstName, string lastName, string loc, string tim
 
 
 
-
+/*
 string Node::getName()
     {
         string nameStr = name;
@@ -89,7 +90,7 @@ string Node::getName()
     }
 
 
-
+*/
 
 string Node::getRecord()
 {

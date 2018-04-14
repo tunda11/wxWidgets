@@ -2,10 +2,76 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "NodeFile.h"
+#include <stdio.h>
 #include <iostream>
 
 using namespace std;
+
+class Node
+    {
+      private:
+             int idNo;
+            string name;
+            string surname;
+            string destination;
+            string season;
+            string booking;
+        
+            Node* nextPtr;
+		 
+      public:
+            // Constructor function
+            Node(int, string, string, string, string, string);
+
+            //Accessor functions
+            int getID(){return idNo;}
+            Node* getNextPtr(){return nextPtr;}
+            string getRecord();
+
+            //Mutator function
+            void setNextPtr(Node* ptr){nextPtr = ptr;}
+    };
+
+  
+
+  
+Node::Node(int number, string firstName, string lastName, string loc, string time, string book)
+    {
+        idNo    = number;
+        name    = firstName;
+        surname = lastName;
+        destination    = loc;
+        season = time;
+        booking = book;
+        
+        nextPtr = NULL;
+    }
+
+
+string Node::getRecord()
+    {
+        string str = "";
+        str.append(to_string(idNo));
+        str.append("\t");
+        str.append(name);
+        str.append("\t");
+        str.append(surname);
+        str.append("\t");
+        str.append(destination);
+        str.append("\t");
+        str.append(season);
+        str.append("\t");
+        str.append(booking);
+        str.append("\n");
+
+        return str;
+    }
+
+// The container (ADT) class for the Queue
+//===========================================================================
+  
+
+
 
 class queue
 {
@@ -15,7 +81,7 @@ class queue
         int num_elements;
         
     public:
-        queue(){front = NULL; back = NULL;}  //constructor
+        queue(){front = NULL; back = NULL; num_elements = 0;}  //constructor
         
         void enqueue (int, string, string, string, string, string); //inserts value at the back of queue
         void emptyQueue() {front = back = NULL;}
@@ -46,13 +112,13 @@ class queue
     
     string queue::theFront()
     {
-        if (isEmpty())
+        if (front == NULL)
         {
             throw ("out of range");
         }
         else
         {
-            return front->getRecord();
+            return front -> getRecord();
         }
     }
     
@@ -149,6 +215,8 @@ class queue
 	back = temp;
 	
     }
+    
+    
     
     string queue::dequeue()
     {

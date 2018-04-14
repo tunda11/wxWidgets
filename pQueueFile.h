@@ -4,15 +4,88 @@
 #include <iostream>
 #include <string>
 #include <string.h>
-#include "NodeFile.h"
 
 using namespace std;
+
+
+class NodePQ
+    {
+      private:
+             int idNo;
+            string name;
+            string surname;
+            string destination;
+            string season;
+            string booking;
+        
+            NodePQ* nextPtr;
+		 
+      public:
+            // Constructor function
+            NodePQ(int, string, string, string, string, string);
+
+            //Accessor functions
+            int getID(){return idNo;}
+            NodePQ* getNextPtr(){return nextPtr;}
+            string getRecord();
+            string getName();
+
+            //Mutator function
+            void setNextPtr(NodePQ* ptr){nextPtr = ptr;}
+    };
+
+  
+
+  
+NodePQ::NodePQ(int number, string firstName, string lastName, string loc, string time, string book)
+    {
+        idNo    = number;
+        name    = firstName;
+        surname = lastName;
+        destination    = loc;
+        season = time;
+        booking = book;
+        
+        nextPtr = NULL;
+    }
+
+
+string NodePQ::getRecord()
+    {
+        string str = "";
+        str.append(to_string(idNo));
+        str.append("\t");
+        str.append(name);
+        str.append("\t");
+        str.append(surname);
+        str.append("\t");
+        str.append(destination);
+        str.append("\t");
+        str.append(season);
+        str.append("\t");
+        str.append(booking);
+        str.append("\n");
+
+        return str;
+    }
+    
+
+string NodePQ::getName()
+    {
+        string nameStr = name;
+        nameStr.append(" ");
+        nameStr.append(surname);
+        
+        return nameStr;
+    }
+
+
 
 class pQueue
 {
     private: 
-        Node* front;
-        Node* back;
+        NodePQ* front;
+        NodePQ* back;
         int num_elements;
         
     public:
@@ -73,7 +146,7 @@ class pQueue
     {
        string myRecord = "";
        
-       Node* curr = front;
+       NodePQ* curr = front;
        
        while (curr != NULL)
        {
@@ -84,11 +157,11 @@ class pQueue
         return myRecord;
     }
     
-    string pQueue::dNames()
+   /* string pQueue::dNames()
 {
     string rec = "";
     
-    Node* cur = front;
+    NodePQ* cur = front;
     
     while (cur != NULL)
     {
@@ -98,11 +171,11 @@ class pQueue
     }
     
     return rec;
-}
+}*/
     
     void pQueue::enqueue(int num, string a, string b, string c, string d, string e)
     {
-        Node* newPtr = new Node(num, a, b, c, d, e);
+        NodePQ* newPtr = new NodePQ(num, a, b, c, d, e);
         
         if (isEmpty())
         {
@@ -120,8 +193,8 @@ class pQueue
         }
         
         
-        Node* tmpPtr = front;
-        Node* curPtr = front->getNextPtr();
+        NodePQ* tmpPtr = front;
+        NodePQ* curPtr = front->getNextPtr();
         
         while ( (curPtr != NULL) && (curPtr->getName() < a) )
         {
@@ -152,7 +225,7 @@ class pQueue
         else
         {
             str = front->getRecord();
-            Node* curPtr = front;
+            NodePQ* curPtr = front;
             front = front->getNextPtr();
             delete curPtr;
         }
