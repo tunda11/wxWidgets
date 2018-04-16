@@ -50,7 +50,7 @@ DataDialog::DataDialog ( const wxString& title, const wxPoint& pos, const wxSize
 											    wxPoint(15, 55) );
  		wxStaticText *lNameLabel    = new wxStaticText(panel, wxID_ANY, wxT("Surname"),
 											    wxPoint(15, 90) );
- 		wxStaticText *destination		= new wxStaticText(panel, wxID_ANY, wxT("Destination"),
+ 		wxStaticText *destinationLabel		= new wxStaticText(panel, wxID_ANY, wxT("Destination"),
 											    wxPoint(15, 125) );
 		wxStaticText *seasonLabel     = new wxStaticText(panel, wxID_ANY, wxT("Season"), 
 											    wxPoint(15, 160) );

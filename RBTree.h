@@ -19,6 +19,9 @@ class RBTNode
             string season;
             string booking;
             string colour;
+            
+            
+            
         public:
             RBTNode* left;
             RBTNode* right;
@@ -40,32 +43,18 @@ class RBTNode
             string getColour(){return colour;}
      };
 
-     // Constructor:
-     
-/*RBTNode::RBTNode()
-    {
-        int idNo = 0;
-        string fname = "";
-        string lname = "";
-        string destination = "";
-        string season = "";
-        string booking = "";
-        right       = NULL;
-        left        = NULL;
-	colour 	    = "RED"; 
-    }*/
-    
+     // Constructor:    
 RBTNode::RBTNode(int num, string firstName, string lastName, string loc, string time, string book)
     {
         idNo = num;
-        string fname = firstName;
-        string lname = lastName;
-        string destination = loc;
-        string season = time;
-        string booking = book;
+        fname = firstName;
+        lname = lastName;
+        destination = loc;
+        season = time;
+        booking = book;
         right       = NULL;
         left        = NULL;
-	colour 	    = "RED"; 
+        colour 	    = "RED"; 
     }
 
 
@@ -74,11 +63,11 @@ RBTNode::RBTNode(int num, string firstName, string lastName, string loc, string 
 void RBTNode::setData(int num, string firstName, string lastName, string loc, string time, string book)
     {
         idNo = num;
-        string fname = firstName;
-        string lname = lastName;
-        string destination = loc;
-        string season = time;
-        string booking = book;
+        fname = firstName;
+        lname = lastName;
+        destination = loc;
+        season = time;
+        booking = book;
     }
 
 
@@ -136,38 +125,6 @@ string RBTNode::getData()
 	str.append("] \n");
         
         return str;
-     
-        /*string recStr = "";
-    
-    cout << idNo << " " << fname << " " << lname << " " << destination << " " << season << " " << booking << "[" << getColour() << "]" << "\n"; //"YOU need to write that function which appends all the fields to recStr\n";
-    
-    /***** Enter the code here ****/
-    /*
-    recStr.append("[");
-	if(left ==NULL)
-	  recStr.append("NULL");
-	else
-	recStr.append(to_string(left->getID()));
-	
-	recStr.append(", ");
-	
-	if(right == NULL)
-	  recStr.append("NULL");
-	else
-	recStr.append(to_string(right->getID()));
-	recStr.append("]\t");
-	
-	//get the colour of the node
-        recStr.append("[");
-        recStr.append(getColour());
-	recStr.append("] \n");
-    
-    stringstream myRecord;
-    string myRecStr = myRecord.str();
-    recStr.append(myRecStr);
-    recStr.append(getColour());
-    
-    return recStr;*/
     
     }
     

@@ -1,4 +1,4 @@
-//Done by: Alec Gilkes ID#415002420
+//Programmed by: Alec Gilkes ID#415002420
 
 /************************************************************************************
   Step 1: Always include the header file wx.h					    
@@ -30,50 +30,31 @@ string makeRecord(int, string, string, string, string, string);
 #include "DataDialog.h"
 //#include "DeleteDialog.h"
 //#include "CaricomDialog.h"
-//#include "SpringDialog.h"
-//#include "WinterDialog.h"
-//#include "FallDialog.h"
-//#include "SummerDialog.h"
 
 // the ADTs header files
-/*#include "Queue.h"
-#include "Deque.h"
-#include "PriorityQueue.h"
-#include "Stack.h"
-//#include "BST.h"
-//#include "AVL.h"
-//#include "Heap.h"
-#include "RBT.h"
-//#include "Splay.h"
-//#include "Set.h"*/
-
 #include "queueFile.h"
 #include "pQueueFile.h"
 #include "dequeFile.h"
 #include "stackFile.h"
+#include "BSTree.h"
+#include "AVLTree.h"
+#include "BinHeap.h"
 #include "RBTree.h"
+#include "Splay.h"
+#include "Sets.h"
 
 //Global pointers for the ADT containers
-/*Deque* mydeque = new Deque();
-PriorityQueue* myPQ = new PriorityQueue();
-Stack* mystack = new Stack();
-//BST* bst = new BST();
-//AVL* avl = new AVL();
-//Heap* heap = new Heap();
-RBT* myrbt = new RBT();
-//SplayTree* splay = new SplayTree();
-//Set* setA = new Set();
-//Set* setB = new Set();*/
-
-
-
 queue* myqueue = new queue(); 
 stack* mystack = new stack();
 pQueue* mypQueue = new pQueue();
 deque* mydeque = new deque();
-RBTNode* myRbtn = new RBTNode();
+BST* myBST = new BST();
+AVL* myAVL = new AVL();
+BinHeap* myBH = new BinHeap();
 RBT* myRBT= new RBT();
-
+SplayTree* mySplay = new SplayTree();
+Set* setA = new Set();
+Set* setB = new Set();
 /************************************************************************************
 *************************************************************************************
   Step 2: Name an inherited application class from wxApp and declare it with 
@@ -363,7 +344,7 @@ BEGIN_EVENT_TABLE ( ProjectFrame, wxFrame )
       EVT_MENU ( ID_PushStack,		ProjectFrame::OnPushStack)
       EVT_MENU ( ID_PopStack,		ProjectFrame::OnPopStack)
       EVT_MENU ( ID_DisplayStack,	ProjectFrame::OnDisplayStack)
-	  /*
+	  
       // Events for the "BST" menu items
       EVT_MENU ( ID_CreateBST,		ProjectFrame::OnCreateBST)
       EVT_MENU ( ID_AddBST,		ProjectFrame::OnAddBST)
@@ -372,7 +353,7 @@ BEGIN_EVENT_TABLE ( ProjectFrame, wxFrame )
       EVT_MENU ( ID_PreorderBST,	ProjectFrame::OnPreorderBST)
       EVT_MENU ( ID_PostorderBST,	ProjectFrame::OnPostorderBST) 
 	   
-	   
+	  
       // Events for the "AVL Tree" menu items
       EVT_MENU ( ID_CreateAVL,		ProjectFrame::OnCreateAVL)
       EVT_MENU ( ID_AddAVL,		ProjectFrame::OnAddAVL)
@@ -387,7 +368,7 @@ BEGIN_EVENT_TABLE ( ProjectFrame, wxFrame )
       EVT_MENU ( ID_DeleteHeap,		ProjectFrame::OnDeleteHeap)
       EVT_MENU ( ID_DisplayHeap,	ProjectFrame::OnDisplayHeap)
       EVT_MENU ( ID_HeapSort,		ProjectFrame::OnHeapSort)
-     */
+     
       // Events for the "Red-Black Tree" menu items
       EVT_MENU ( ID_CreateRBT,		ProjectFrame::OnCreateRBT)
       EVT_MENU ( ID_AddRBT,		ProjectFrame::OnAddRBT)
@@ -395,7 +376,7 @@ BEGIN_EVENT_TABLE ( ProjectFrame, wxFrame )
       EVT_MENU ( ID_InorderRBT,		ProjectFrame::OnInorderRBT)
       EVT_MENU ( ID_PreorderRBT,	ProjectFrame::OnPreorderRBT)
       EVT_MENU ( ID_PostorderRBT,	ProjectFrame::OnPostorderRBT)
-     /*
+     
       // Events for the "Splay Tree" menu items
       EVT_MENU ( ID_CreateSplay,	ProjectFrame::OnCreateSplay)
       EVT_MENU ( ID_AddSplay,		ProjectFrame::OnAddSplay)
@@ -417,7 +398,7 @@ BEGIN_EVENT_TABLE ( ProjectFrame, wxFrame )
    
       // Events for the "About" menu items
       EVT_MENU ( ID_About, ProjectFrame::OnAbout)
-*/
+
 END_EVENT_TABLE () 
   
 
@@ -853,25 +834,25 @@ void ProjectFrame::OnDisplay(wxCommandEvent& event )
    
 void ProjectFrame::OnExit(wxCommandEvent& event)
     {
-	wxMessageBox(wxT("Good-bye!"), wxT("Exit"), wxOK | wxICON_INFORMATION, this);
+	wxMessageBox(wxT("A+ Quality!"), wxT("Exit"), wxOK | wxICON_INFORMATION, this);
 	Close(TRUE); // Close the window//
     }
 
 
 
     
-/*void ProjectFrame::OnAbout(wxCommandEvent& event )
+void ProjectFrame::OnAbout(wxCommandEvent& event )
     {
 	string str="";
 	wxPlatformInfo platInfo = wxPlatformInfo ();
 	wxString architecture = platInfo.GetArchName( );
-	str.append("Information Structures Project\nProgrammer: Mellissa Marie\nID: 412002117\nSystem architecture: ");
+	str.append("Data Structures Assignment\n Program developed by: Alec Gilkes\nID: 415002420\nSystem architecture: ");
 	str.append(string(architecture.mb_str()));
 	wxString wxstr(str.c_str(), wxConvUTF8);
 	
 	wxMessageBox(wxstr, wxT("About..."), wxOK | wxICON_INFORMATION, this);
     }
-  */
+  
 
     
   
@@ -1056,7 +1037,7 @@ void ProjectFrame::OnDequeueQueue(wxCommandEvent& event)
   
 void ProjectFrame::OnEnqueueQueue(wxCommandEvent& event)
   {
-	/*Record dataRec;
+	Record dataRec;
 		
 		DataDialog *datadialog = new DataDialog( wxT("COMP2611 - Data Entry for Queue"), 
 							 wxPoint(200,200), wxSize(420,290) );
@@ -1089,9 +1070,9 @@ void ProjectFrame::OnEnqueueQueue(wxCommandEvent& event)
 			MainEditBox->AppendText(wxT("\t\t\t\t\nRecord added:\n\n"));
 		  
 			// Create a label for the displayed records
-			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			heading.append("==================================================================================================");
+			heading.append("======================================================================================");
 			wxString wxheading(heading.c_str(), wxConvUTF8);
 			MainEditBox->AppendText(wxheading);
 			
@@ -1105,7 +1086,6 @@ void ProjectFrame::OnEnqueueQueue(wxCommandEvent& event)
 			string last = strip(string(dataRec.last.mb_str()));
 			string place = strip(string(dataRec.place.mb_str()));
 			string timeOfYear = strip(string(dataRec.timeOfYear.mb_str()));
-			//string payType = strip(string(dataRec.payMethod.mb_str()));
 			string bookingType = strip(string(dataRec.bookType.mb_str()));
 
 			// ... Now send the data to the Queue
@@ -1117,7 +1097,7 @@ void ProjectFrame::OnEnqueueQueue(wxCommandEvent& event)
 			 datadialog->Close();
 			    
  
-		datadialog->Destroy();			//Destroy the dialog box*/
+		datadialog->Destroy();			//Destroy the dialog box
 		 
   }  
   
@@ -1163,7 +1143,7 @@ void ProjectFrame::OnCreateDeque(wxCommandEvent& event)
         // Create a label for the displayed records
         heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("===========================================================================================\n");
         record.append(heading);
         wxString wxRecord(record.c_str(), wxConvUTF8);
         MainEditBox->AppendText(wxRecord);
@@ -1210,7 +1190,7 @@ void ProjectFrame::OnDisplayDeque(wxCommandEvent& event)
 	 // Create a label for the displayed records
         heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("========================================================================================\n");
 	records.append(heading);
 	
 	records.append(mydeque->dList());
@@ -1235,7 +1215,7 @@ void ProjectFrame::OnShowHeadDeque(wxCommandEvent& event)
 	 // Create a label for the displayed records
         heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("===========================================================================================\n");
 	record.append(heading);
 	record.append(mydeque->theFront());
 		  
@@ -1259,7 +1239,7 @@ void ProjectFrame::OnShowTailDeque(wxCommandEvent& event)
 	 // Create a label for the displayed records
         heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=======================================================================================\n");
 	record.append(heading);
 	record.append(mydeque->theTail());
 		  
@@ -1282,7 +1262,7 @@ void ProjectFrame::OnDequeueHeadDeque(wxCommandEvent& event)
 	 // Create a label for the displayed records
         heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("==========================================================================================\n");
 	record.append(heading);
 	record.append(mydeque->outFront());
 		  
@@ -1305,7 +1285,7 @@ void ProjectFrame::OnDequeueTailDeque(wxCommandEvent& event)
 	 // Create a label for the displayed records
         heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("======================================================================================\n");
 	record.append(heading);
 	record.append(mydeque->outBack());
 		  
@@ -1354,9 +1334,9 @@ void ProjectFrame::OnEnqueueHeadDeque(wxCommandEvent& event)
 			MainEditBox->AppendText(wxT("\t\t\t\t\nRecord added at the Head:\n\n"));
 		  
 			// Create a label for the displayed records
-			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			heading.append("==================================================================================================");
+			heading.append("=================================================================================");
 			wxString wxheading(heading.c_str(), wxConvUTF8);
 			MainEditBox->AppendText(wxheading);
 			
@@ -1424,7 +1404,7 @@ void ProjectFrame::OnEnqueueTailDeque(wxCommandEvent& event)
 			// Create a label for the displayed records
 			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			heading.append("==================================================================================================");
+			heading.append("=================================================================================");
 			wxString wxheading(heading.c_str(), wxConvUTF8);
 			MainEditBox->AppendText(wxheading);
 			
@@ -1493,7 +1473,7 @@ void ProjectFrame::OnCreatePQ(wxCommandEvent& event)
         // Create a label for the displayed records
         heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=======================================================================================\n");
 	record.append(heading);
         wxString wxRecord(record.c_str(), wxConvUTF8);
         MainEditBox->AppendText(wxRecord);
@@ -1541,7 +1521,7 @@ void ProjectFrame::OnDisplayPQ(wxCommandEvent& event)
 	 // Create a label for the displayed records
         heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=======================================================================================\n");
 	records.append(heading);
 	
 	records.append(mypQueue->dList());
@@ -1565,7 +1545,7 @@ void ProjectFrame::OnShowHeadPQ(wxCommandEvent& event)
 	 // Create a label for the displayed records
         heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("======================================================================================\n");
 	record.append(heading);
 	record.append(mypQueue->theFront());
 		  
@@ -1588,7 +1568,7 @@ void ProjectFrame::OnShowTailPQ(wxCommandEvent& event)
 	 // Create a label for the displayed records
         heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("========================================================================================\n");
 	record.append(heading);
 	record.append(mypQueue->theBack());
 		  
@@ -1608,9 +1588,9 @@ void ProjectFrame::OnDequeuePQ(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	 // Create a label for the displayed records
-        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("========================================================================================\n");
 	record.append(heading);
 	record.append(mypQueue->dequeue());
 		  
@@ -1658,9 +1638,9 @@ void ProjectFrame::OnEnqueuePQ(wxCommandEvent& event)
 			MainEditBox->AppendText(wxT("\t\t\t\t\nRecord added:\n\n"));
 		  
 			// Create a label for the displayed records
-			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			heading.append("==================================================================================================");
+			heading.append("==================================================================================");
 			wxString wxheading(heading.c_str(), wxConvUTF8);
 			MainEditBox->AppendText(wxheading);
 			
@@ -1732,7 +1712,7 @@ void ProjectFrame::OnCreateStack(wxCommandEvent& event)
         // Create a label for the displayed records
         heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("=============================================================================================\n");
+        heading.append("========================================================================================\n");
 	record.append(heading);
         wxString wxRecord(record.c_str(), wxConvUTF8);
         MainEditBox->AppendText(wxRecord);
@@ -1782,9 +1762,9 @@ void ProjectFrame::OnDisplayStack(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	 // Create a label for the displayed records
-        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=======================================================================================\n");
 	records.append(heading);
 	
 	records.append(mystack->dList());
@@ -1805,9 +1785,9 @@ void ProjectFrame::OnPopStack(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	 // Create a label for the displayed records
-        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=======================================================================================\n");
 	records.append(heading);
 	
 	records.append(mystack->pop());
@@ -1856,9 +1836,9 @@ void ProjectFrame::OnPushStack(wxCommandEvent& event)
 			MainEditBox->AppendText(wxT("\t\t\t\t\nRecord added:\n\n"));
 		  
 			// Create a label for the displayed records
-			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			heading.append("==================================================================================================");
+			heading.append("===================================================================================");
 			wxString wxheading(heading.c_str(), wxConvUTF8);
 			MainEditBox->AppendText(wxheading);
 			
@@ -1888,7 +1868,7 @@ void ProjectFrame::OnPushStack(wxCommandEvent& event)
 		*/
   }  
   
-  /*
+  
   
 //=======================================================================================
 //                     BINARY SEARCH TREE DEFINITION DECLARATIONS 
@@ -1899,12 +1879,11 @@ void ProjectFrame::OnCreateBST(wxCommandEvent& event)
 	MainEditBox->Clear();
 	
         int     id;
-        string  first;
-        string  last;
-	string place;
-	string timeOfYear;
-	string payType;
-	string bookingType;
+        string  fname;
+        string  lname;
+        string destination;
+        string season;
+        string booking;
 	
 	char comma;
 	   
@@ -1912,7 +1891,7 @@ void ProjectFrame::OnCreateBST(wxCommandEvent& event)
         
         
 	//Empty the BST
-	bst->purgeBST();
+	myBST->purgeBST();
       
 	//open the file
 	ifstream infile(CurrentDocPath.mb_str(), ios::in);
@@ -1928,9 +1907,9 @@ void ProjectFrame::OnCreateBST(wxCommandEvent& event)
         getline(infile, heading, '\n');
   
         // Create a label for the displayed records
-        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=======================================================================================\n");
 	record.append(heading);
         wxString wxRecord(record.c_str(), wxConvUTF8);
         MainEditBox->AppendText(wxRecord);
@@ -1938,29 +1917,26 @@ void ProjectFrame::OnCreateBST(wxCommandEvent& event)
         while (!infile.eof())//read all the records in the file
             {
                 infile  >> id >> comma;
-                getline(infile, first, ',');
-                getline(infile, last, ',');
-                getline(infile, place, ',');
-                getline(infile, timeOfYear, ',');
-                getline(infile, payType, ',');
-                getline(infile, bookingType, '\n');
+                getline(infile, fname, ',');
+                getline(infile, lname, ',');
+                getline(infile, destination, ',');
+                getline(infile, season, ',');
+                getline(infile, booking, '\n');
 			 
  			 
                 if (!infile.eof())
 		  {
-			first = strip(first);
-			last  = strip(last);
-			place = strip(place);
-			timeOfYear = strip(timeOfYear);
-			payType = strip(payType);
-			bookingType = strip(bookingType);
+			fname = strip(fname);
+			lname  = strip(lname);
+			destination = strip(destination);
+			season = strip(season);
+			booking = strip(booking);
 			
                    
-			record = makeRecord(id, first, last, place, timeOfYear, payType, bookingType);
+			record = makeRecord(id, fname, lname, destination, season, booking);
 						
-						
-			bst->insertBST(id, first, last, place, timeOfYear, payType, bookingType);
-		  }
+			myBST->insert(id, fname, lname, destination, season, booking);
+		  
 					
                         wxString wxRecord(record.c_str(), wxConvUTF8);
                         MainEditBox->AppendText(wxRecord);
@@ -1969,7 +1945,7 @@ void ProjectFrame::OnCreateBST(wxCommandEvent& event)
 			
                         //Reset record variable
                         record = "";
-			
+          }
               }// End while
               
   }  
@@ -1982,12 +1958,13 @@ void ProjectFrame::OnInorderBST(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	 // Create a label for the displayed records
-        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=======================================================================================\n");
 	records.append(heading);
 	
-	records.append(bst->inOrderBST());
+    //records.append(myBST->getDataBST());
+	records.append(myBST->inOrder());
 		
 	//Convert to a wxString
 	wxString wxRecords(records.c_str(), wxConvUTF8);
@@ -2006,12 +1983,12 @@ void ProjectFrame::OnPreorderBST(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	 // Create a label for the displayed records
-        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=======================================================================================\n");
 	records.append(heading);
 	
-	records.append(bst->preOrderBST());
+	records.append(myBST->preOrder());
 		
 	//Convert to a wxString
 	wxString wxRecords(records.c_str(), wxConvUTF8);
@@ -2030,12 +2007,12 @@ void ProjectFrame::OnPostorderBST(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	 // Create a label for the displayed records
-        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("====================================================================================\n");
 	records.append(heading);
 	
-	records.append(bst->postOrderBST());
+	records.append(myBST->postOrder());
 		
 	//Convert to a wxString
 	wxString wxRecords(records.c_str(), wxConvUTF8);
@@ -2050,7 +2027,7 @@ void ProjectFrame::OnPostorderBST(wxCommandEvent& event)
 
   
 void ProjectFrame::OnDeleteBST(wxCommandEvent& event)
-  {
+  {/*
 	Record dataRec;
 		
 		DeleteDialog *deletedialog = new DeleteDialog( wxT("COMP2115 - Data Deletion for BST"), 
@@ -2067,9 +2044,9 @@ void ProjectFrame::OnDeleteBST(wxCommandEvent& event)
 			MainEditBox->AppendText(wxT("\t\t\t\t\nRecord deleted:\n\n"));
 		  
 			// Create a label for the displayed records
-			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			heading.append("==================================================================================================\n");
+			heading.append("===================================================================================\n");
 			wxString wxheading(heading.c_str(), wxConvUTF8);
 			MainEditBox->AppendText(wxheading);
 			
@@ -2091,11 +2068,12 @@ void ProjectFrame::OnDeleteBST(wxCommandEvent& event)
 			    
  
 		deletedialog->Destroy();			//Destroy the dialog box
+        */
   }  
   
   
 void ProjectFrame::OnAddBST(wxCommandEvent& event)
-  {
+  {/*
 		Record dataRec;
 		
 		DataDialog *datadialog = new DataDialog( wxT("COMP2115 - Data Entry for BST"), 
@@ -2120,7 +2098,6 @@ void ProjectFrame::OnAddBST(wxCommandEvent& event)
 			//Grab the list item selected
 			dataRec.timeOfYear 	= datadialog->SeasonCombo->GetValue();
 			dataRec.bookType 	= datadialog->BookingCombo->GetValue();
-			dataRec.payMethod   = datadialog->PaymentCombo->GetValue();
 
 			
 			
@@ -2132,9 +2109,9 @@ void ProjectFrame::OnAddBST(wxCommandEvent& event)
 			    MainEditBox->AppendText(wxT("\t\t\t\t\nRecord added:\n\n"));
 		      
 			    // Create a label for the displayed records
-			    string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			    string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			    heading.append("==================================================================================================");
+			    heading.append("================================================================================");
 			    wxString wxheading(heading.c_str(), wxConvUTF8);
 			    MainEditBox->AppendText(wxheading);
 			    
@@ -2165,7 +2142,7 @@ void ProjectFrame::OnAddBST(wxCommandEvent& event)
 			    
  
 		datadialog->Destroy();			//Destroy the dialog box
-		
+		*/
   }  
   
   
@@ -2182,7 +2159,6 @@ void ProjectFrame::OnCreateAVL(wxCommandEvent& event)
         string  last;
 	string place;
 	string timeOfYear;
-	string payType;
 	string bookingType;
 	string Fall = "Fall";
 	char comma;
@@ -2191,7 +2167,7 @@ void ProjectFrame::OnCreateAVL(wxCommandEvent& event)
         
         
 	//Empty the AVL
-	avl->purgeAVL();
+	myAVL->purgeAVL();
       
 	//open the file
 	ifstream infile(CurrentDocPath.mb_str(), ios::in);
@@ -2207,9 +2183,9 @@ void ProjectFrame::OnCreateAVL(wxCommandEvent& event)
         getline(infile, heading, '\n');
   
         // Create a label for the displayed records
-        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=======================================================================================\n");
 	record.append(heading);
         wxString wxRecord(record.c_str(), wxConvUTF8);
         MainEditBox->AppendText(wxRecord);
@@ -2221,7 +2197,6 @@ void ProjectFrame::OnCreateAVL(wxCommandEvent& event)
                 getline(infile, last, ',');
                 getline(infile, place, ',');
                 getline(infile, timeOfYear, ',');
-                getline(infile, payType, ',');
                 getline(infile, bookingType, '\n');
 			 
  			 
@@ -2231,16 +2206,15 @@ void ProjectFrame::OnCreateAVL(wxCommandEvent& event)
 			last  = strip(last);
 			place = strip(place);
 			timeOfYear = strip(timeOfYear);
-			payType = strip(payType);
 			bookingType = strip(bookingType);
 			Fall = strip(Fall);
 			
 			if(timeOfYear == Fall)
 			  {
-			      record = makeRecord(id, first, last, place, timeOfYear, payType, bookingType);
+			      record = makeRecord(id, first, last, place, timeOfYear, bookingType);
 						      
 						      
-			      avl->insertAVL(id, first, last, place, timeOfYear, payType, bookingType);
+			      myAVL->insertAVL(id, first, last, place, timeOfYear, bookingType);
 			  
 			
 					      
@@ -2263,12 +2237,12 @@ void ProjectFrame::OnInorderAVL(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	 // Create a label for the displayed records
-        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("========================================================================================\n");
 	records.append(heading);
 	
-	records.append(avl->inOrderAVL());
+	records.append(myAVL->inOrderAVL());
 		
       //Convert to a wxString
       wxString wxRecords(records.c_str(), wxConvUTF8);
@@ -2287,12 +2261,12 @@ void ProjectFrame::OnPreorderAVL(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	 // Create a label for the displayed records
-        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("======================================================================================\n");
 	records.append(heading);
 	
-	records.append(avl->preOrderAVL());
+	records.append(myAVL->preOrderAVL());
 		
       //Convert to a wxString
       wxString wxRecords(records.c_str(), wxConvUTF8);
@@ -2311,12 +2285,12 @@ void ProjectFrame::OnPostorderAVL(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	 // Create a label for the displayed records
-        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("======================================================================================\n");
 	records.append(heading);
 	
-	records.append(avl->postOrderAVL());
+	records.append(myAVL->postOrderAVL());
 		
       //Convert to a wxString
       wxString wxRecords(records.c_str(), wxConvUTF8);
@@ -2331,7 +2305,7 @@ void ProjectFrame::OnPostorderAVL(wxCommandEvent& event)
 
   
 void ProjectFrame::OnDeleteAVL(wxCommandEvent& event)
-  {
+  {/*
     Record dataRec;
 		
 		DeleteDialog *deletedialog = new DeleteDialog( wxT("COMP2115 - Data Deletion for AVL"), 
@@ -2348,9 +2322,9 @@ void ProjectFrame::OnDeleteAVL(wxCommandEvent& event)
 			MainEditBox->AppendText(wxT("\t\t\t\t\nRecord deleted:\n\n"));
 		  
 			// Create a label for the displayed records
-			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			heading.append("==================================================================================================\n");
+			heading.append("=================================================================================\n");
 			wxString wxheading(heading.c_str(), wxConvUTF8);
 			MainEditBox->AppendText(wxheading);
 			
@@ -2372,11 +2346,12 @@ void ProjectFrame::OnDeleteAVL(wxCommandEvent& event)
 			    
  
 		deletedialog->Destroy();			//Destroy the dialog box
+        */
   }  
   
   
 void ProjectFrame::OnAddAVL(wxCommandEvent& event)
-  {
+  {/*
 	Record dataRec;
 		
 		FallDialog *falldialog = new FallDialog( wxT("COMP2115 - Data Entry for AVL"), 
@@ -2401,7 +2376,6 @@ void ProjectFrame::OnAddAVL(wxCommandEvent& event)
 			//Grab the list item selected
 			dataRec.timeOfYear 	= falldialog->SeasonCombo->GetValue();
 			dataRec.bookType 	= falldialog->BookingCombo->GetValue();
-			dataRec.payMethod   = falldialog->PaymentCombo->GetValue();
 
 			
 			
@@ -2413,9 +2387,9 @@ void ProjectFrame::OnAddAVL(wxCommandEvent& event)
 			    MainEditBox->AppendText(wxT("\t\t\t\t\nRecord added:\n\n"));
 		      
 			    // Create a label for the displayed records
-			    string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			    string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			    heading.append("==================================================================================================");
+			    heading.append("================================================================================");
 			    wxString wxheading(heading.c_str(), wxConvUTF8);
 			MainEditBox->AppendText(wxheading);
 			    
@@ -2429,7 +2403,6 @@ void ProjectFrame::OnAddAVL(wxCommandEvent& event)
 			    string last = strip(string(dataRec.last.mb_str()));
 			    string place = strip(string(dataRec.place.mb_str()));
 			    string timeOfYear = strip(string(dataRec.timeOfYear.mb_str()));
-			    string payType = strip(string(dataRec.payMethod.mb_str()));
 			    string bookingType = strip(string(dataRec.bookType.mb_str()));
 
 			    // ... Now send the data to the AVL
@@ -2444,7 +2417,7 @@ void ProjectFrame::OnAddAVL(wxCommandEvent& event)
 			    
  
 		falldialog->Destroy();			//Destroy the dialog box
-		
+	*/	
   }  
   
 //=======================================================================================
@@ -2460,7 +2433,6 @@ void ProjectFrame::OnCreateHeap(wxCommandEvent& event)
         string  last;
 	string place;
 	string timeOfYear;
-	string payType;
 	string bookingType;
 	string Summer = "Summer";
 	char comma;
@@ -2469,7 +2441,7 @@ void ProjectFrame::OnCreateHeap(wxCommandEvent& event)
         
         
 	//Empty the Heap
-	heap->purgeHeap();
+	myBH->purgeBH();
       
 	//open the file
 	ifstream infile(CurrentDocPath.mb_str(), ios::in);
@@ -2485,9 +2457,9 @@ void ProjectFrame::OnCreateHeap(wxCommandEvent& event)
         getline(infile, heading, '\n');
   
         // Create a label for the displayed records
-        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("========================================================================================\n");
 	record.append(heading);
         wxString wxRecord(record.c_str(), wxConvUTF8);
         MainEditBox->AppendText(wxRecord);
@@ -2499,7 +2471,6 @@ void ProjectFrame::OnCreateHeap(wxCommandEvent& event)
                 getline(infile, last, ',');
                 getline(infile, place, ',');
                 getline(infile, timeOfYear, ',');
-                getline(infile, payType, ',');
                 getline(infile, bookingType, '\n');
 			 
  			 
@@ -2509,16 +2480,15 @@ void ProjectFrame::OnCreateHeap(wxCommandEvent& event)
 			last  = strip(last);
 			place = strip(place);
 			timeOfYear = strip(timeOfYear);
-			payType = strip(payType);
 			bookingType = strip(bookingType);
 			Summer = strip(Summer);
 			
 			if(timeOfYear == Summer )
 			  {
-			      record = makeRecord(id, first, last, place, timeOfYear, payType, bookingType);
+			      record = makeRecord(id, first, last, place, timeOfYear, bookingType);
 						      
 						      
-			      heap->addMinHeap(id, first, last, place, timeOfYear, payType, bookingType);
+			      myBH->addMinHeap(id, first, last, place, timeOfYear, bookingType);
 			  
 			
 					      
@@ -2542,12 +2512,12 @@ void ProjectFrame::OnDisplayHeap(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	 // Create a label for the displayed records
-        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("========================================================================================\n");
 	records.append(heading);
 	
-	records.append(heap->displayHeap());
+	records.append(myBH->displayHeap());
 		
       //Convert to a wxString
       wxString wxRecords(records.c_str(), wxConvUTF8);
@@ -2567,12 +2537,12 @@ void ProjectFrame::OnHeapSort(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	 // Create a label for the displayed records
-        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("======================================================================================\n");
 	records.append(heading);
 	
-	records.append(heap->sortMinHeap());
+	records.append(myBH->sortMinHeap());
 		
       //Convert to a wxString
       wxString wxRecords(records.c_str(), wxConvUTF8);
@@ -2586,7 +2556,7 @@ void ProjectFrame::OnHeapSort(wxCommandEvent& event)
 
   
 void ProjectFrame::OnDeleteHeap(wxCommandEvent& event)
-  {
+  {/*
     Record dataRec;
 		
 		DeleteDialog *deletedialog = new DeleteDialog( wxT("COMP2115 - Data Deletion for Heap"), 
@@ -2603,9 +2573,9 @@ void ProjectFrame::OnDeleteHeap(wxCommandEvent& event)
 			MainEditBox->AppendText(wxT("\t\t\t\t\nRecord deleted:\n\n"));
 		  
 			// Create a label for the displayed records
-			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			heading.append("==================================================================================================\n");
+			heading.append("====================================================================================\n");
 			wxString wxheading(heading.c_str(), wxConvUTF8);
 			MainEditBox->AppendText(wxheading);
 			
@@ -2627,12 +2597,12 @@ void ProjectFrame::OnDeleteHeap(wxCommandEvent& event)
 			    
  
 		deletedialog->Destroy();			//Destroy the dialog box
-    
+    */
   }  
   
   
 void ProjectFrame::OnAddHeap(wxCommandEvent& event)
-  {
+  {/*
 	Record dataRec;
 		
 		SummerDialog *summerdialog = new SummerDialog( wxT("COMP2115 - Data Entry for Heap"), 
@@ -2657,7 +2627,6 @@ void ProjectFrame::OnAddHeap(wxCommandEvent& event)
 			//Grab the list item selected
 			dataRec.timeOfYear 	= summerdialog->SeasonCombo->GetValue();
 			dataRec.bookType 	= summerdialog->BookingCombo->GetValue();
-			dataRec.payMethod   = summerdialog->PaymentCombo->GetValue();
 
 			
 			
@@ -2669,9 +2638,9 @@ void ProjectFrame::OnAddHeap(wxCommandEvent& event)
 			    MainEditBox->AppendText(wxT("\t\t\t\t\nRecord added:\n\n"));
 		      
 			    // Create a label for the displayed records
-			    string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			    string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			    heading.append("==================================================================================================");
+			    heading.append("===============================================================================");
 			    wxString wxheading(heading.c_str(), wxConvUTF8);
 			    MainEditBox->AppendText(wxheading);
 			    
@@ -2701,9 +2670,9 @@ void ProjectFrame::OnAddHeap(wxCommandEvent& event)
 			    
  
 		summerdialog->Destroy();			//Destroy the dialog box
-		
-  } 
 		*/
+  } 
+		
 		
 		
 //=======================================================================================
@@ -2711,6 +2680,7 @@ void ProjectFrame::OnAddHeap(wxCommandEvent& event)
 //=======================================================================================
 void ProjectFrame::OnCreateRBT(wxCommandEvent& event)
   {
+      //ONLY WINTER SEASONS NECESSARY
  	// Clear the edit box
 	MainEditBox->Clear();
 	
@@ -2745,7 +2715,7 @@ void ProjectFrame::OnCreateRBT(wxCommandEvent& event)
         // Create a label for the displayed records
         heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=========================================================================================\n");
 	record.append(heading);
         wxString wxRecord(record.c_str(), wxConvUTF8);
         MainEditBox->AppendText(wxRecord);
@@ -2786,87 +2756,6 @@ void ProjectFrame::OnCreateRBT(wxCommandEvent& event)
 			}
 		  }
               }// End while
-              
-          /*    //ONLY WINTER SEASONS NECESSARY
-        int num;
-            string fname;
-            string lname;
-            string loc;
-            string season;
-            string book;
-            string colour;
-            string Winter = "Winter";
-        
-            char comma = ',';
-        
-            string record;
-            string theRecord;
-            string titleLine;
-    
-            // Clear the edit box
-            MainEditBox->Clear();
-    
-            //Empty the Stack
-            myRBT->emptyRBTree();
-      
-            //Create filename pointer    
-            //ifstream inFile;
-            ifstream inFile;
-        
-            inFile.open(CurrentDocPath.mb_str(), ios::in);
-    
-        if (!inFile)
-        {
-            MainEditBox->AppendText(wxT("Unable to open file as requested"));
-            return;
-        }
-       
-            // Read off the title line and discard it
-            getline(inFile, titleLine, '\n');
-  
-            // Create a label for the displayed records
-            titleLine = "Client ID \t\t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
-
-            titleLine.append("==================================================================================================\n");
-            record.append(titleLine);
-            wxString wxRecords(record.c_str(), wxConvUTF8);
-            MainEditBox->AppendText(wxRecords);
-        
-            while (!inFile.eof())
-            {
-           
-                inFile  >> num >> comma;
-                    getline(inFile, fname, ',');
-                    getline(inFile, lname, ',');
-                    getline(inFile, loc, ',');
-                    getline(inFile, season, ',');
-                    getline(inFile, book, '\n');
-           
-                
-                if (!inFile.eof())
-                {
-                    fname = strip(fname);
-                    lname  = strip(lname);
-                    loc = strip(loc);
-                    season = strip(season);
-                    book = strip(book);
-                    Winter = strip(Winter);
-              
-                if (season == Winter)
-                {
-                    record = makeRecord(num, fname, lname, loc, season, book);
-                    myRBT->insert(num, fname, lname, loc, season, book);
-                    
-                    wxString wxRecords(record.c_str(), wxConvUTF8);
-                    MainEditBox->AppendText(wxRecords);
-                    MainEditBox->AppendText(wxT("\n"));
-        
-                    record = " ";
-                }//end of seasonal if statement
-                
-                }//end of File If
-                
-            }//end While*/
   }  
   
   
@@ -2880,7 +2769,7 @@ void ProjectFrame::OnInorderRBT(wxCommandEvent& event)
 	 // Create a label for the displayed records
         heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("========================================================================================\n");
 	records.append(heading);
 	
 	records.append(myRBT->inOrder());
@@ -2904,7 +2793,7 @@ void ProjectFrame::OnPreorderRBT(wxCommandEvent& event)
 	 // Create a label for the displayed records
         heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("======================================================================================\n");
 	records.append(heading);
 	
 	records.append(myRBT->preOrder());
@@ -2928,7 +2817,7 @@ void ProjectFrame::OnPostorderRBT(wxCommandEvent& event)
 	 // Create a label for the displayed records
         heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=======================================================================================\n");
 	records.append(heading);
 	
 	records.append(myRBT->postOrder());
@@ -2963,9 +2852,9 @@ void ProjectFrame::OnDeleteRBT(wxCommandEvent& event)
 			MainEditBox->AppendText(wxT("\t\t\t\t\nRecord deleted:\n\n"));
 		  
 			// Create a label for the displayed records
-			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			heading.append("==================================================================================================\n");
+			heading.append("===================================================================================\n");
 			wxString wxheading(heading.c_str(), wxConvUTF8);
 			MainEditBox->AppendText(wxheading);
 			
@@ -3017,7 +2906,6 @@ void ProjectFrame::OnAddRBT(wxCommandEvent& event)
 			//Grab the list item selected
 			dataRec.timeOfYear 	= winterdialog->SeasonCombo->GetValue();
 			dataRec.bookType 	= winterdialog->BookingCombo->GetValue();
-			dataRec.payMethod   = winterdialog->PaymentCombo->GetValue();
 
 			
 			
@@ -3029,9 +2917,9 @@ void ProjectFrame::OnAddRBT(wxCommandEvent& event)
 			    MainEditBox->AppendText(wxT("\t\t\t\t\nRecord added:\n\n"));
 		      
 			    // Create a label for the displayed records
-			    string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			    string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			    heading.append("==================================================================================================");
+			    heading.append("================================================================================");
 			    wxString wxheading(heading.c_str(), wxConvUTF8);
 			MainEditBox->AppendText(wxheading);
 			    
@@ -3045,7 +2933,6 @@ void ProjectFrame::OnAddRBT(wxCommandEvent& event)
 			    string last = strip(string(dataRec.last.mb_str()));
 			    string place = strip(string(dataRec.place.mb_str()));
 			    string timeOfYear = strip(string(dataRec.timeOfYear.mb_str()));
-			    string payType = strip(string(dataRec.payMethod.mb_str()));
 			    string bookingType = strip(string(dataRec.bookType.mb_str()));
 
 			    // ... Now send the data to the RBT
@@ -3063,7 +2950,7 @@ void ProjectFrame::OnAddRBT(wxCommandEvent& event)
 		*/
   }  
   
-  /*
+  
 //=======================================================================================
 //==================== Definition for the Splay Functions ==========================
 //=======================================================================================
@@ -3077,16 +2964,14 @@ void ProjectFrame::OnCreateSplay(wxCommandEvent& event)
         string  last;
 	string place;
 	string timeOfYear;
-	string payType;
 	string bookingType;
-	string Spring = "Spring";
 	char comma;
 	   
         string record, heading;
         
         
 	//Empty the Splay
-	splay->purgeSplay();
+	mySplay->purgeSplay();
       
 	//open the file
 	ifstream infile(CurrentDocPath.mb_str(), ios::in);
@@ -3102,9 +2987,9 @@ void ProjectFrame::OnCreateSplay(wxCommandEvent& event)
         getline(infile, heading, '\n');
   
         // Create a label for the displayed records
-        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("========================================================================================\n");
 	record.append(heading);
         wxString wxRecord(record.c_str(), wxConvUTF8);
         MainEditBox->AppendText(wxRecord);
@@ -3116,7 +3001,6 @@ void ProjectFrame::OnCreateSplay(wxCommandEvent& event)
                 getline(infile, last, ',');
                 getline(infile, place, ',');
                 getline(infile, timeOfYear, ',');
-                getline(infile, payType, ',');
                 getline(infile, bookingType, '\n');
 			 
  			 
@@ -3126,28 +3010,25 @@ void ProjectFrame::OnCreateSplay(wxCommandEvent& event)
 			last  = strip(last);
 			place = strip(place);
 			timeOfYear = strip(timeOfYear);
-			payType = strip(payType);
 			bookingType = strip(bookingType);
-			Spring = strip(Spring);
 			
-			if(timeOfYear == Spring )
-			  {
-			      record = makeRecord(id, first, last, place, timeOfYear, payType, bookingType);
+			  
+            record = makeRecord(id, first, last, place, timeOfYear, bookingType);
 						      
 						      
-			      splay->insertSplay(id, first, last, place, timeOfYear, payType, bookingType);
+            mySplay->Insert(id, first, last, place, timeOfYear, bookingType);
 			  
 			
 					      
-			      wxString wxRecord(record.c_str(), wxConvUTF8);
-			      MainEditBox->AppendText(wxRecord);
-			      MainEditBox->AppendText(wxT("\n"));
+            wxString wxRecord(record.c_str(), wxConvUTF8);
+            MainEditBox->AppendText(wxRecord);
+            MainEditBox->AppendText(wxT("\n"));
 			      
 			      //Reset record variable
-			      record = "";
-			}
+            record = "";
+			
 		  }
-              }// End while
+            }// End while
   }  
   
   
@@ -3159,12 +3040,12 @@ void ProjectFrame::OnInorderSplay(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	 // Create a label for the displayed records
-        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=====================================================================================\n");
 	records.append(heading);
 	
-	records.append(splay->inOrderSplay());
+	records.append(mySplay->InOrder());
 		
 	//Convert to a wxString
 	wxString wxRecords(records.c_str(), wxConvUTF8);
@@ -3184,12 +3065,12 @@ void ProjectFrame::OnPreorderSplay(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	 // Create a label for the displayed records
-        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=====================================================================================\n");
 	records.append(heading);
 	
-	records.append(splay->preOrderSplay());
+	records.append(mySplay->PreOrder());
 		
 	//Convert to a wxString
 	wxString wxRecords(records.c_str(), wxConvUTF8);
@@ -3209,12 +3090,12 @@ void ProjectFrame::OnPostorderSplay(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	 // Create a label for the displayed records
-        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("======================================================================================\n");
 	records.append(heading);
 	
-	records.append(splay->postOrderSplay());
+	records.append(mySplay->PostOrder());
 		
 	//Convert to a wxString
 	wxString wxRecords(records.c_str(), wxConvUTF8);
@@ -3229,7 +3110,7 @@ void ProjectFrame::OnPostorderSplay(wxCommandEvent& event)
 
   
 void ProjectFrame::OnDeleteSplay(wxCommandEvent& event)
-  {
+  {/*
     Record dataRec;
 		
 		DeleteDialog *deletedialog = new DeleteDialog( wxT("COMP2115 - Data Deletion for Splay"), 
@@ -3246,9 +3127,9 @@ void ProjectFrame::OnDeleteSplay(wxCommandEvent& event)
 			MainEditBox->AppendText(wxT("\t\t\t\t\nRecord deleted:\n\n"));
 		  
 			// Create a label for the displayed records
-			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			heading.append("==================================================================================================\n");
+			heading.append("==================================================================================\n");
 			wxString wxheading(heading.c_str(), wxConvUTF8);
 			MainEditBox->AppendText(wxheading);
 			
@@ -3270,11 +3151,12 @@ void ProjectFrame::OnDeleteSplay(wxCommandEvent& event)
 			    
  
 		deletedialog->Destroy();			//Destroy the dialog box
+		*/
   }  
   
   
 void ProjectFrame::OnAddSplay(wxCommandEvent& event)
-  {
+  {/*
 	Record dataRec;
 		
 		SpringDialog *springdialog = new SpringDialog( wxT("COMP2115 - Data Entry for Splay"), 
@@ -3299,7 +3181,6 @@ void ProjectFrame::OnAddSplay(wxCommandEvent& event)
 			//Grab the list item selected
 			dataRec.timeOfYear 	= springdialog->SeasonCombo->GetValue();
 			dataRec.bookType 	= springdialog->BookingCombo->GetValue();
-			dataRec.payMethod   = springdialog->PaymentCombo->GetValue();
 
 			
 			
@@ -3311,9 +3192,9 @@ void ProjectFrame::OnAddSplay(wxCommandEvent& event)
 			  MainEditBox->AppendText(wxT("\t\t\t\t\nRecord added:\n\n"));
 		    
 			  // Create a label for the displayed records
-			  string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			  string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			  heading.append("==================================================================================================");
+			  heading.append("====================================================================================");
 			  wxString wxheading(heading.c_str(), wxConvUTF8);
 			  MainEditBox->AppendText(wxheading);
 			  
@@ -3327,7 +3208,6 @@ void ProjectFrame::OnAddSplay(wxCommandEvent& event)
 			  string last = strip(string(dataRec.last.mb_str()));
 			  string place = strip(string(dataRec.place.mb_str()));
 			  string timeOfYear = strip(string(dataRec.timeOfYear.mb_str()));
-			  string payType = strip(string(dataRec.payMethod.mb_str()));
 			  string bookingType = strip(string(dataRec.bookType.mb_str()));
 			  
 			  
@@ -3345,13 +3225,13 @@ void ProjectFrame::OnAddSplay(wxCommandEvent& event)
  
 		springdialog->Destroy();			//Destroy the dialog box
 		
-
+        */
   } 
   
-  
-  //=======================================================================================
-//==================== Definition for the Set Functions ==========================
-//=======================================================================================
+ 
+//***************************************************************************************
+//                       Definition for the Set Functions 
+//***************************************************************************************
 void ProjectFrame::OnCreateSets(wxCommandEvent& event)
   {
  	// Clear the edit box
@@ -3362,7 +3242,6 @@ void ProjectFrame::OnCreateSets(wxCommandEvent& event)
         string  last;
 	string place;
 	string timeOfYear;
-	string payType;
 	string bookingType;
 
 	char comma;
@@ -3388,9 +3267,9 @@ void ProjectFrame::OnCreateSets(wxCommandEvent& event)
         getline(infile, heading, '\n');
   
         // Create a label for the displayed records
-        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("========================================================================================\n");
 	record.append(heading);
         wxString wxRecord(record.c_str(), wxConvUTF8);
         MainEditBox->AppendText(wxRecord);
@@ -3402,7 +3281,6 @@ void ProjectFrame::OnCreateSets(wxCommandEvent& event)
                 getline(infile, last, ',');
                 getline(infile, place, ',');
                 getline(infile, timeOfYear, ',');
-                getline(infile, payType, ',');
                 getline(infile, bookingType, '\n');
 		string Antigua = "Antigua";
 		string Bahamas = "Bahamas";
@@ -3426,7 +3304,6 @@ void ProjectFrame::OnCreateSets(wxCommandEvent& event)
 			last  = strip(last);
 			place = strip(place);
 			timeOfYear = strip(timeOfYear);
-			payType = strip(payType);
 			bookingType = strip(bookingType);
 			Antigua = strip(Antigua);
 			Bahamas = strip(Bahamas);
@@ -3444,19 +3321,19 @@ void ProjectFrame::OnCreateSets(wxCommandEvent& event)
 			Suriname = strip(Suriname);
 			Trinidad = strip(Trinidad);
                    
-			record = makeRecord(id, first, last, place, timeOfYear, payType, bookingType);
+			record = makeRecord(id, first, last, place, timeOfYear, bookingType);
 						
 			// check if destination is a Caricom country
 			if (place == Antigua || place == Bahamas || place ==  Barbados || place ==  Belize || place ==  Dominica || place ==  Grenada || place ==  Guyana || place ==  Haiti || place ==  Jamaica 
 			  || place ==  Montserrat || place ==  StLucia || place ==  StKitts || place ==  StVincent || place ==  Suriname || place == Trinidad) 
                             {
                                 record.append("\t...Added to Set A\n");
-                                setA->add(id, first, last, place, timeOfYear, payType, bookingType);
+                                setA->add(id, first, last, place, timeOfYear, bookingType);
                             }
 					else
 						{
 						  record.append("\t...Added to Set B\n");
-                                setB->add(id, first, last, place, timeOfYear, payType, bookingType);	
+                                setB->add(id, first, last, place, timeOfYear, bookingType);	
 						}	
 		  }
 					
@@ -3479,9 +3356,9 @@ void ProjectFrame::OnDisplaySetA(wxCommandEvent& event)
 	
 	
 	 // Create a label for the displayed records
-        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=======================================================================================\n");
 	records.append(heading);
 	
 	records.append(setA->displaySet());
@@ -3505,9 +3382,9 @@ void ProjectFrame::OnDisplaySetA(wxCommandEvent& event)
 	
 	
 	 // Create a label for the displayed records
-        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("======================================================================================\n");
 	records.append(heading);
 	
 	records.append(setB->displaySet());
@@ -3531,15 +3408,15 @@ void ProjectFrame::OnIntersection(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	 // Create a label for the displayed records
-        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=======================================================================================\n");
 	record.append(heading);
 	
 	
 	
 	Set* C = new Set();
-	C->intersection(setA, setB);
+	C->intersectionSet(setA, setB);
 	for(int x = 0; x < C->getNumElements(); x++)
 	{
 	  //if(C->getSetBooking(x) == Internet)
@@ -3563,13 +3440,13 @@ void ProjectFrame::OnUnion(wxCommandEvent& event)
 	MainEditBox->Clear();
   
 	// Create a label for the displayed records
-        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+        heading = "Client ID \t FirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-        heading.append("==================================================================================================\n");
+        heading.append("=========================================================================================\n");
 	record.append(heading);
 	
 	Set* D = new Set();
-	D->setUnion(setA, setB);
+	D->unionSet(setA, setB);
 	
 	record.append(D->displaySet());
 		  
@@ -3583,10 +3460,10 @@ void ProjectFrame::OnUnion(wxCommandEvent& event)
 
 
 void ProjectFrame::OnDeleteSetA(wxCommandEvent& event)
-  {
+  {/*
 	Record dataRec;
 		
-		DeleteDialog *deletedialog = new DeleteDialog( wxT("COMP2115 - Data Deletion for Set A"), 
+		DeleteDialog *deletedialog = new DeleteDialog( wxT("COMP2611 - Data Deletion for Set A"), 
 							 wxPoint(200,200), wxSize(420,180) );
 
 		// If the OK button is clicked...
@@ -3600,9 +3477,9 @@ void ProjectFrame::OnDeleteSetA(wxCommandEvent& event)
 			MainEditBox->AppendText(wxT("\t\t\t\t\nRecord deleted:\n\n"));
 		  
 			// Create a label for the displayed records
-			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			heading.append("==================================================================================================\n");
+			heading.append("=================================================================================\n");
 			wxString wxheading(heading.c_str(), wxConvUTF8);
 			MainEditBox->AppendText(wxheading);
 			
@@ -3624,14 +3501,15 @@ void ProjectFrame::OnDeleteSetA(wxCommandEvent& event)
 			    
  
 		deletedialog->Destroy();			//Destroy the dialog box
+        */
   }  
 
   
 void ProjectFrame::OnDeleteSetB(wxCommandEvent& event)
-  {
+  {/*
 	Record dataRec;
 		
-		DeleteDialog *deletedialog = new DeleteDialog( wxT("COMP2115 - Data Deletion for Set B"), 
+		DeleteDialog *deletedialog = new DeleteDialog( wxT("COMP2611 - Data Deletion for Set B"), 
 							 wxPoint(200,200), wxSize(420,180) );
 
 		// If the OK button is clicked...
@@ -3645,9 +3523,9 @@ void ProjectFrame::OnDeleteSetB(wxCommandEvent& event)
 			MainEditBox->AppendText(wxT("\t\t\t\t\nRecord deleted:\n\n"));
 		  
 			// Create a label for the displayed records
-			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			heading.append("==================================================================================================\n");
+			heading.append("=================================================================================\n");
 			wxString wxheading(heading.c_str(), wxConvUTF8);
 			MainEditBox->AppendText(wxheading);
 			
@@ -3669,14 +3547,15 @@ void ProjectFrame::OnDeleteSetB(wxCommandEvent& event)
 			    
  
 		deletedialog->Destroy();			//Destroy the dialog box
+        */
   } 
   
   
 void ProjectFrame::OnAddSetA(wxCommandEvent& event)
-  {
+  {/*
 	Record dataRec;
 		
-		CaricomDialog *caricomdialog = new CaricomDialog( wxT("COMP2115 - Data Entry for Set A"), 
+		CaricomDialog *caricomdialog = new CaricomDialog( wxT("COMP2611 - Data Entry for Set A"), 
 							 wxPoint(200,200), wxSize(420,290) );
 
 		// If the OK button is clicked...
@@ -3696,7 +3575,6 @@ void ProjectFrame::OnAddSetA(wxCommandEvent& event)
 			dataRec.place = caricomdialog->PlaceCombo->GetValue();
 			dataRec.timeOfYear 	= caricomdialog->SeasonCombo->GetValue();
 			dataRec.bookType 	= caricomdialog->BookingCombo->GetValue();
-			dataRec.payMethod   = caricomdialog->PaymentCombo->GetValue();
 
 			
 			
@@ -3708,9 +3586,9 @@ void ProjectFrame::OnAddSetA(wxCommandEvent& event)
 			    MainEditBox->AppendText(wxT("\t\t\t\t\nRecord added:\n\n"));
 		      
 			    // Create a label for the displayed records
-			    string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			    string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			    heading.append("==================================================================================================");
+			    heading.append("=================================================================================");
 			    wxString wxheading(heading.c_str(), wxConvUTF8);
 			MainEditBox->AppendText(wxheading);
 			    
@@ -3724,14 +3602,13 @@ void ProjectFrame::OnAddSetA(wxCommandEvent& event)
 			    string last = strip(string(dataRec.last.mb_str()));
 			    string place = strip(string(dataRec.place.mb_str()));
 			    string timeOfYear = strip(string(dataRec.timeOfYear.mb_str()));
-			    string payType = strip(string(dataRec.payMethod.mb_str()));
 			    string bookingType = strip(string(dataRec.bookType.mb_str()));
 
 			    // ... Now send the data to the set
-			    setA->add(id, first, last, place, timeOfYear, payType, bookingType);                            
+			    setA->add(id, first, last, place, timeOfYear, bookingType);                            
 			}
 			else
-			    MainEditBox->AppendText(wxT("Sorry, but that would create a duplicate")); 
+			    MainEditBox->AppendText(wxT("Record already exists within Set")); 
 		    }
 
 		else //if (caricomdialog->ShowModal() == wxID_CANCEL)
@@ -3739,15 +3616,15 @@ void ProjectFrame::OnAddSetA(wxCommandEvent& event)
 			    
  
 		caricomdialog->Destroy();			//Destroy the dialog box
-		
+		*/
   }  
   
   
   void ProjectFrame::OnAddSetB(wxCommandEvent& event)
-  {
+  {/*
 	Record dataRec;
 		
-		DataDialog *datadialog = new DataDialog( wxT("COMP2115 - Data Entry for Set B"), 
+		DataDialog *datadialog = new DataDialog( wxT("COMP2611 - Data Entry for Set B"), 
 							 wxPoint(200,200), wxSize(420,290) );
 
 		// If the OK button is clicked...
@@ -3769,7 +3646,6 @@ void ProjectFrame::OnAddSetA(wxCommandEvent& event)
 			//Grab the list item selected
 			dataRec.timeOfYear 	= datadialog->SeasonCombo->GetValue();
 			dataRec.bookType 	= datadialog->BookingCombo->GetValue();
-			dataRec.payMethod   = datadialog->PaymentCombo->GetValue();
 
 			
 			
@@ -3789,7 +3665,6 @@ void ProjectFrame::OnAddSetA(wxCommandEvent& event)
 			    string last = strip(string(dataRec.last.mb_str()));
 			    string place = strip(string(dataRec.place.mb_str()));
 			    string timeOfYear = strip(string(dataRec.timeOfYear.mb_str()));
-			    string payType = strip(string(dataRec.payMethod.mb_str()));
 			    string bookingType = strip(string(dataRec.bookType.mb_str()));
 
 			    if((setB->find(dataRec.idNo) == false) &&  place != strip("Antigua") && place != strip("Bahamas") && place !=  strip("Barbados") && place !=  strip("Belize") && place !=  strip("Dominica") 
@@ -3805,9 +3680,9 @@ void ProjectFrame::OnAddSetA(wxCommandEvent& event)
 			    MainEditBox->AppendText(wxT("\t\t\t\t\nRecord added:\n\n"));
 		      
 			    // Create a label for the displayed records
-			    string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tPayment \t\tBooking\n";
+			    string heading = "Client ID \t\tFirstName \t\tSurname \t\tDestination \t\tSeason \t\tBooking\n";
 
-			    heading.append("==================================================================================================");
+			    heading.append("===============================================================================");
 			    wxString wxheading(heading.c_str(), wxConvUTF8);
 			    MainEditBox->AppendText(wxheading);
 			    MainEditBox->AppendText(getDataString(dataRec));
@@ -3825,8 +3700,8 @@ void ProjectFrame::OnAddSetA(wxCommandEvent& event)
 			    
  
 		datadialog->Destroy();			//Destroy the dialog box
-		
-  }  */
+	*/	
+  }  
   
   
 
